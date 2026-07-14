@@ -149,7 +149,7 @@
                         <span id="ui-setrest-lbl" class="text-slate-400 text-xs">組與組休息時間 (組間休息)</span>
                         <span id="set-rest-label" class="text-blue-400 font-bold text-xs">90 秒</span>
                     </div>
-                    <input type="range" id="set-rest-duration" min="30" max="180" step="15" value="90" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                    <input type="range" id="set-rest-duration" min="30" max="180" step="15" value="90" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-905 rounded-lg appearance-none cursor-pointer accent-blue-500">
                 </div>
 
                 <!-- Cool-down Toggle -->
@@ -186,7 +186,7 @@
         </div>
     </div>
 
-    <!-- MAIN TIMER VIEW (Expanded & Perfectly Cleaned) -->
+    <!-- MAIN TIMER VIEW -->
     <main class="max-w-3xl w-full mx-auto p-4 sm:p-6 flex-grow flex flex-col justify-center gap-6">
         
         <!-- CENTER PANEL: ACTIVE TIMER -->
@@ -234,28 +234,28 @@
                 </div>
             </div>
 
-            <!-- CONTROLLER BUTTONS -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <!-- CONTROLLER BUTTONS (Perfect Equal Columns & Smaller Sleek Height & Accurate Usability sizing) -->
+            <div class="grid grid-cols-3 gap-3 w-full max-w-[420px] mx-auto">
                 <!-- Previous Step button -->
-                <button onclick="prevStep()" class="px-5 py-3.5 bg-slate-950 border border-slate-900 text-slate-300 hover:text-white hover:bg-slate-900/80 rounded-2xl flex items-center justify-center gap-2 font-bold transition-all shadow-md active:scale-95 text-xs sm:text-sm">
-                    <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button onclick="prevStep()" class="h-11 sm:h-12 bg-slate-950 border border-slate-900 text-slate-300 hover:text-white hover:bg-slate-900/80 rounded-xl flex items-center justify-center gap-1.5 font-bold transition-all shadow-md active:scale-95 text-xs w-full">
+                    <svg style="width: 16px; height: 16px;" class="shrink-0 text-slate-400 hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
                     </svg>
-                    <span id="ui-prev-btn">上一個動作</span>
+                    <span id="ui-prev-btn">上一個</span>
                 </button>
 
                 <!-- PLAY / PAUSE / RESUME button -->
-                <button id="main-play-btn" onclick="togglePlayPause()" class="px-6 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-2xl flex items-center justify-center gap-2 font-black text-sm sm:text-base transition-all shadow-emerald-500/10 shadow-xl active:scale-95">
-                    <svg id="play-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <button id="main-play-btn" onclick="togglePlayPause()" class="h-11 sm:h-12 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs sm:text-sm transition-all shadow-emerald-500/10 shadow-xl active:scale-95 w-full">
+                    <svg id="play-icon" style="width: 16px; height: 16px;" class="shrink-0" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z" />
                     </svg>
                     <span id="play-text">開始訓練</span>
                 </button>
 
-                <!-- Next Step button -->
-                <button onclick="nextStep()" class="px-5 py-3.5 bg-slate-950 border border-slate-900 text-slate-300 hover:text-white hover:bg-slate-900/80 rounded-2xl flex items-center justify-center gap-2 font-bold transition-all shadow-md active:scale-95 text-xs sm:text-sm">
-                    <span id="ui-skip-btn">跳過動作</span>
-                    <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Next / Skip Step button -->
+                <button onclick="nextStep()" class="h-11 sm:h-12 bg-slate-950 border border-slate-900 text-slate-300 hover:text-white hover:bg-slate-900/80 rounded-xl flex items-center justify-center gap-1.5 font-bold transition-all shadow-md active:scale-95 text-xs w-full">
+                    <span id="ui-skip-btn">跳過</span>
+                    <svg style="width: 16px; height: 16px;" class="shrink-0 text-slate-400 hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
                     </svg>
                 </button>
@@ -315,7 +315,7 @@
             },
             { 
                 id: 'birddog', 
-                name: { zh: 'Bird Dog 鳥狗式', en: 'Bird Dog' }, 
+                name: { zh: 'Bird Dog 烏狗式', en: 'Bird Dog' }, 
                 tip: { 
                     zh: '【攻克長坡良伴】前後平直延伸，維持 2 秒。保護下背，為 Day 2 境目峠預防痠痛！', 
                     en: '[Climbing Spine Guard] Extend straight forward & backward, hold 2s. Protects your lower back, preventing pain on Day 2 slopes.' 
@@ -411,8 +411,8 @@
                 startBtn: "開始訓練",
                 pauseBtn: "暫停計時",
                 resumeBtn: "繼續計時",
-                prevBtn: "上一個動作",
-                skipBtn: "跳過動作",
+                prevBtn: "上一個",
+                skipBtn: "跳過",
                 timelineProg: "當前進度",
                 footerText: "© 2026 瀨戶內海單車作戰備忘錄 · 核心肌肉，是您攻克島波海道最牢靠的「避震器」！",
                 resetBtn: " 重設計時器",
@@ -480,8 +480,8 @@
                 startBtn: "Start Workout",
                 pauseBtn: "Pause Timer",
                 resumeBtn: "Resume Timer",
-                prevBtn: "Previous",
-                skipBtn: "Skip Step",
+                prevBtn: "Prev",
+                skipBtn: "Skip",
                 timelineProg: "Current Progress",
                 footerText: "© 2026 Setouchi Cycling Expedition. Strong core is your bike's ultimate shock absorber!",
                 resetBtn: " Reset Timer",
@@ -868,6 +868,7 @@
             osc.stop(time + duration + 0.05);
         }
 
+        // Sequences scheduling loop (Solid clock design)
         function bgmSequenceScheduler() {
             while (nextBGMStepTime < audioCtx.currentTime + 0.1) {
                 scheduleBGMStep(currentBGMStep, nextBGMStepTime);
@@ -1005,6 +1006,7 @@
             return matchedVoices[0];
         }
 
+        // Toggles State of Text to Speech Voice guide
         function toggleSpeech() {
             isSpeechEnabled = !isSpeechEnabled;
             updateSpeechButtonLabel();
@@ -1092,10 +1094,10 @@
                 }
             });
 
-            setElText('work-time-label', `${work} ${currentLang === 'en' ? 'secs' : '秒'}`);
-            setElText('rest-time-label', `${rest} ${currentLang === 'en' ? 'secs' : '秒'}`);
-            setElText('set-rest-label', `${setRest} ${currentLang === 'en' ? 'secs' : '秒'}`);
-            setElText('set-count-label', `${sets} ${currentLang === 'en' ? 'Sets' : '組'}`);
+            document.getElementById('work-time-label').innerText = `${work} ${currentLang === 'en' ? 'secs' : '秒'}`;
+            document.getElementById('rest-time-label').innerText = `${rest} ${currentLang === 'en' ? 'secs' : '秒'}`;
+            document.getElementById('set-rest-label').innerText = `${setRest} ${currentLang === 'en' ? 'secs' : '秒'}`;
+            document.getElementById('set-count-label').innerText = `${sets} ${currentLang === 'en' ? 'Sets' : '組'}`;
 
             calculateEstimatedTotal();
             if (!isTimerRunning) {
@@ -1442,6 +1444,7 @@
             }
         }
 
+        // Voice announcements with auto audio ducking
         function announceActiveStep(step) {
             if (!isSpeechEnabled) return;
             const t = i18nDict[currentLang];
