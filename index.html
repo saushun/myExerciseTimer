@@ -19,7 +19,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: .6; }
         }
-        /* Custom scrollbar for beautiful setup lists */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -36,7 +35,7 @@
 
     <!-- HEADER -->
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4 sticky top-0 z-30">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
                 <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,24 +44,40 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-                        2026 瀨戶內海備戰 
-                        <span class="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full font-normal">核心強化</span>
+                        <span id="ui-header-title">2026 瀨戶內海備戰</span> 
+                        <span id="ui-badge-core" class="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full font-normal">核心強化</span>
                     </h1>
-                    <p class="text-xs text-slate-400">專為單車手設計的 30 分鐘每晚高強度循環訓練</p>
+                    <p id="ui-header-subtitle" class="text-xs text-slate-400">專為單車手設計的 30 分鐘每晚高強度循環訓練</p>
                 </div>
             </div>
-            <div class="text-right flex items-center gap-4">
-                <div class="text-xs text-slate-400 sm:block hidden">
-                    距離 2026/09/27 出發還有多個星期，今晚就開始累積實力！
-                </div>
-                <!-- Audio and Speech Controls -->
-                <div class="flex gap-2">
-                    <button id="speech-btn" onclick="toggleSpeech()" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors" title="切換語音播報">
-                        <svg id="speech-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <!-- Volume High icon -->
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                        </svg>
-                    </button>
+
+            <!-- AUDIO, LANGUAGE & SOUNDS CONTROLS -->
+            <div class="flex flex-wrap items-center justify-center gap-3 bg-slate-800/50 p-2 rounded-xl border border-slate-700/50">
+                <!-- Language Selector -->
+                <button id="lang-btn" onclick="toggleLanguage()" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 hover:bg-emerald-400 text-xs font-bold flex items-center gap-1.5 transition-all shadow-md">
+                    🌐 English
+                </button>
+
+                <!-- TTS Cantonese Toggle -->
+                <button id="speech-btn" onclick="toggleSpeech()" class="px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 text-xs font-semibold flex items-center gap-1.5 transition-all">
+                    <svg id="speech-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                    <span id="ui-speech-lbl">語音播報: ON</span>
+                </button>
+
+                <!-- BGM Synthesizer Toggle -->
+                <button id="bgm-btn" onclick="toggleBGM()" class="px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 text-xs font-semibold flex items-center gap-1.5 transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                    </svg>
+                    <span id="ui-bgm-lbl">背景音樂: OFF</span>
+                </button>
+
+                <!-- Volume Slider -->
+                <div class="flex items-center gap-1.5 px-2">
+                    <span id="ui-vol-lbl" class="text-[10px] text-slate-400 font-bold uppercase">音量</span>
+                    <input type="range" id="bgm-volume" min="0" max="100" value="40" oninput="adjustBGMVolume(this.value)" class="w-16 h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500">
                 </div>
             </div>
         </div>
@@ -74,7 +89,7 @@
         <!-- LEFT PANEL: CONFIGURATION -->
         <section id="config-panel" class="lg:col-span-4 bg-slate-900/50 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between h-fit gap-6 transition-all">
             <div>
-                <h2 class="text-md font-bold text-slate-200 mb-4 flex items-center gap-2">
+                <h2 id="ui-config-title" class="text-md font-bold text-slate-200 mb-4 flex items-center gap-2">
                     <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -86,11 +101,11 @@
                     <!-- Warm-up Toggle -->
                     <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-xl border border-slate-800/60">
                         <div>
-                            <span class="text-sm font-semibold block text-slate-300">動態熱身 (Warm-up)</span>
-                            <span class="text-xs text-slate-500">5 分鐘，激活核心</span>
+                            <span id="ui-warmup-title" class="text-sm font-semibold block text-slate-300">動態熱身 (Warm-up)</span>
+                            <span id="ui-warmup-desc" class="text-xs text-slate-500">5 分鐘，激活核心</span>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id="toggle-warmup" class="sr-only peer" checked>
+                            <input type="checkbox" id="toggle-warmup" onchange="updateSettingsLabels()" class="sr-only peer" checked>
                             <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                         </label>
                     </div>
@@ -98,7 +113,7 @@
                     <!-- Work Duration -->
                     <div class="space-y-1.5">
                         <div class="flex justify-between text-sm">
-                            <span class="text-slate-400">動作執行時間 (工作)</span>
+                            <span id="ui-work-lbl" class="text-slate-400">動作執行時間 (工作)</span>
                             <span id="work-time-label" class="text-emerald-400 font-bold">45 秒</span>
                         </div>
                         <input type="range" id="work-duration" min="30" max="90" step="5" value="45" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
@@ -107,7 +122,7 @@
                     <!-- Rest Duration -->
                     <div class="space-y-1.5">
                         <div class="flex justify-between text-sm">
-                            <span class="text-slate-400">動作間休息時間 (休息)</span>
+                            <span id="ui-rest-lbl" class="text-slate-400">動作間休息時間 (休息)</span>
                             <span id="rest-time-label" class="text-amber-400 font-bold">30 秒</span>
                         </div>
                         <input type="range" id="rest-duration" min="15" max="60" step="5" value="30" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
@@ -116,7 +131,7 @@
                     <!-- Set Rest Duration -->
                     <div class="space-y-1.5">
                         <div class="flex justify-between text-sm">
-                            <span class="text-slate-400">組與組休息時間 (組間休息)</span>
+                            <span id="ui-setrest-lbl" class="text-slate-400">組與組休息時間 (組間休息)</span>
                             <span id="set-rest-label" class="text-blue-400 font-bold">90 秒</span>
                         </div>
                         <input type="range" id="set-rest-duration" min="30" max="180" step="15" value="90" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500">
@@ -125,11 +140,11 @@
                     <!-- Cool-down Toggle -->
                     <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-xl border border-slate-800/60">
                         <div>
-                            <span class="text-sm font-semibold block text-slate-300">拉筋伸展 (Cool-down)</span>
-                            <span class="text-xs text-slate-500">5 分鐘，針對性放鬆</span>
+                            <span id="ui-cooldown-title" class="text-sm font-semibold block text-slate-300">拉筋伸展 (Cool-down)</span>
+                            <span id="ui-cooldown-desc" class="text-xs text-slate-500">5 分鐘，針對性放鬆</span>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id="toggle-cooldown" class="sr-only peer" checked>
+                            <input type="checkbox" id="toggle-cooldown" onchange="updateSettingsLabels()" class="sr-only peer" checked>
                             <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                         </label>
                     </div>
@@ -138,9 +153,9 @@
 
             <!-- Total Estimated Time Card -->
             <div class="mt-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-center">
-                <span class="text-xs text-emerald-400/80 uppercase tracking-widest font-bold">預估訓練總長度</span>
+                <span id="ui-est-label" class="text-xs text-emerald-400/80 uppercase tracking-widest font-bold">預估訓練總長度</span>
                 <div id="total-estimate" class="text-2xl font-black text-white mt-1">~30 分 00 秒</div>
-                <p class="text-[10px] text-slate-400 mt-1">包含熱身及組間大休息</p>
+                <p id="ui-est-sub" class="text-[10px] text-slate-400 mt-1">包含熱身及組間大休息</p>
             </div>
         </section>
 
@@ -196,7 +211,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
                     </svg>
-                    上一個動作
+                    <span id="ui-prev-btn">上一個動作</span>
                 </button>
 
                 <!-- PLAY / PAUSE / RESUME button -->
@@ -209,7 +224,7 @@
 
                 <!-- Next Step button -->
                 <button onclick="nextStep()" class="px-6 py-4 bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800/80 rounded-2xl flex items-center justify-center gap-2 font-bold transition-all shadow-lg active:scale-95">
-                    跳過動作
+                    <span id="ui-skip-btn">跳過動作</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
                     </svg>
@@ -219,7 +234,7 @@
             <!-- PROGRESS LIST BAR -->
             <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-4">
                 <div class="flex justify-between text-xs text-slate-500 mb-2 font-semibold">
-                    <span>當前進度</span>
+                    <span id="ui-timeline-prog">當前進度</span>
                     <span id="timeline-progress">1 / -- 步</span>
                 </div>
                 <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden flex" id="overall-progress-bar">
@@ -229,13 +244,13 @@
         </section>
     </main>
 
-    <!-- FLOATING PLAYLIST PANEL (DRAWER MODAL STYLE) -->
+    <!-- FLOATING PLAYLIST PANEL -->
     <footer class="bg-slate-900/60 border-t border-slate-800 py-3 px-6 z-20">
-        <div class="max-w-6xl mx-auto flex justify-between items-center text-xs text-slate-500">
-            <div>
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-slate-500 text-center sm:text-left">
+            <div id="ui-footer-text">
                 &copy; 2026 瀨戶內海單車作戰備忘錄 · 核心肌肉，是您攻克島波海道最牢靠的「避震器」！
             </div>
-            <button onclick="resetWorkout()" class="text-slate-400 hover:text-rose-400 font-bold flex items-center gap-1 transition-colors">
+            <button id="ui-reset-btn" onclick="resetWorkout()" class="text-slate-400 hover:text-rose-400 font-bold flex items-center gap-1 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 15H19" />
                 </svg>
@@ -246,58 +261,539 @@
 
     <!-- JS LOGIC CODE -->
     <script>
-        // 1. Core Exercise Data Structure & Bike specific tips
+        // 1. Core Exercise Data Structure & Bike specific tips (Bilingual nested strings)
         const workoutsModel = [
-            { id: 'plank', name: 'Plank 棒式支撐', desc: '模擬單車支撐姿勢', tip: '【模擬單車支撐】手肘撐地，腹肌鎖緊！這能增強你握住彎把時上半身的耐力。', baseDuration: 45, type: 'work' },
-            { id: 'deadbug', name: 'Dead Bug 死蟲式', desc: '手腳協調與深層核心', tip: '【下背貼死地墊】最低點 Hold 住 1-2 秒！消除借力，模擬雙腳踩踏時的腰部穩定性。', baseDuration: 60, type: 'work' },
-            { id: 'birddog', name: 'Bird Dog 鳥狗式', desc: '強化下背與臀部大肌群', tip: '【攻克長坡良伴】前後平直延伸，維持 2 秒。保護下背，為 Day 2 境目峠預防痠痛！', baseDuration: 60, type: 'work' },
-            { id: 'russiantwist', name: 'Russian Twist 俄羅斯轉體', desc: '側腹與核心應變力', tip: '【轉彎抽車關鍵】雙手左右觸地。強化你的腹斜肌，提升操控單車和突發應變的靈敏度。', baseDuration: 45, type: 'work' },
-            { id: 'pushup', name: 'Push-up 掌上壓', desc: '強化路面顛簸避震力', tip: '【防止手腕手掌麻木】手肘微彎吸震，推起時肚子收緊。如果攰，可以換跪姿做！', baseDuration: 45, type: 'work' },
-            { id: 'glutebridge', name: 'Glute Bridge 橋式', desc: '喚醒臀肌，解救下背', tip: '【減輕腰椎壓力】臀部向上推起至直線，最高點停 2 秒！避免下半身踩踏壓力集中於下背。', baseDuration: 45, type: 'work' },
-            { id: 'sideplank_l', name: 'Side Plank 側棒式 (左)', desc: '鎖緊骨盆防左右晃動', tip: '【穩定踩踏核心】左肘撐起，身體一直線！防止踩踏時骨盆左右晃動磨損膝蓋。', baseDuration: 30, type: 'work' },
-            { id: 'sideplank_r', name: 'Side Plank 側棒式 (右)', desc: '鎖緊骨盆防左右晃動', tip: '【穩定踩踏核心】右肘撐起，保持腰部抬高！確保踩下的每一腳都能全數轉為動力！', baseDuration: 30, type: 'work' }
+            { 
+                id: 'plank', 
+                name: { zh: 'Plank 棒式支撐', en: 'Plank Hold' }, 
+                tip: { 
+                    zh: '【模擬單車支撐】手肘撐地，腹肌鎖緊！這能增強你長時間握彎把時上半身的耐力。', 
+                    en: '[Simulate Handlebar Support] Elbows on floor, core braced! This builds upper-body endurance for long riding hours.' 
+                }, 
+                baseDuration: 45, 
+                type: 'work' 
+            },
+            { 
+                id: 'deadbug', 
+                name: { zh: 'Dead Bug 死蟲式', en: 'Dead Bug' }, 
+                tip: { 
+                    zh: '【下背貼死地墊】最低點 Hold 住 1-2 秒！消除借力，模擬雙腳踩踏時的腰部穩定性。', 
+                    en: '[Lower Back Glued to Floor] Hold for 1-2 seconds at the bottom! Eliminates momentum and mimics core stability during pedaling.' 
+                }, 
+                baseDuration: 60, 
+                type: 'work' 
+            },
+            { 
+                id: 'birddog', 
+                name: { zh: 'Bird Dog 鳥狗式', en: 'Bird Dog' }, 
+                tip: { 
+                    zh: '【攻克長坡良伴】前後平直延伸，維持 2 秒。保護下背，為 Day 2 境目峠預防痠痛！', 
+                    en: '[Climbing Spine Guard] Extend straight forward & backward, hold 2s. Protects your lower back, preventing pain on Day 2 slopes.' 
+                }, 
+                baseDuration: 60, 
+                type: 'work' 
+            },
+            { 
+                id: 'russiantwist', 
+                name: { zh: 'Russian Twist 俄羅斯轉體', en: 'Russian Twist' }, 
+                tip: { 
+                    zh: '【轉彎抽車關鍵】雙手左右觸地。強化側腹肌，提升操控單車和突發應變的靈敏度。', 
+                    en: '[Saddle Handling & Cornering] Touch ground left and right. Strengthens obliques for bike control and out-of-saddle maneuvering.' 
+                }, 
+                baseDuration: 45, 
+                type: 'work' 
+            },
+            { 
+                id: 'pushup', 
+                name: { zh: 'Push-up 掌上壓', en: 'Push-up' }, 
+                tip: { 
+                    zh: '【路面避震大師】手肘微彎吸震，推起時肚子收緊。如果攰，可以換跪姿做！', 
+                    en: '[Road Buzz Absorption] Push floor away with core tight. Drop to knees if upper-body fatigued!' 
+                }, 
+                baseDuration: 45, 
+                type: 'work' 
+            },
+            { 
+                id: 'glutebridge', 
+                name: { zh: 'Glute Bridge 橋式', en: 'Glute Bridge' }, 
+                tip: { 
+                    zh: '【減輕腰椎壓力】臀部向上推起至直線，最高點停 2 秒！避免下半身踩踏壓力集中於下背。', 
+                    en: '[Lower Back Saddle Relief] Drive hips up to straight line, hold 2s! Activates glutes to offload pedaling stress from your waist.' 
+                }, 
+                baseDuration: 45, 
+                type: 'work' 
+            },
+            { 
+                id: 'sideplank_l', 
+                name: { zh: 'Side Plank 側棒式 (左)', en: 'Side Plank (Left)' }, 
+                tip: { 
+                    zh: '【穩定踩踏核心】左肘撐起，身體一直線！防止踩踏時骨盆左右晃動磨損膝蓋。', 
+                    en: '[Prevent Saddle Rocking] Lift hips on left elbow. Keeps pelvis locked to prevent lateral knee shearing.' 
+                }, 
+                baseDuration: 30, 
+                type: 'work' 
+            },
+            { 
+                id: 'sideplank_r', 
+                name: { zh: 'Side Plank 側棒式 (右)', en: 'Side Plank (Right)' }, 
+                tip: { 
+                    zh: '【穩定踩踏核心】右肘撐起，保持腰部抬高！確保踩下的每一腳都能全數轉為動力！', 
+                    en: '[Pedaling Power Efficiency] Lift hips on right elbow. Ensures every pedal stroke translates directly into forward drive!' 
+                }, 
+                baseDuration: 30, 
+                type: 'work' 
+            }
         ];
 
-        // Web Audio Synthesizer for Retro Beeps (Zero external file dependencies)
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playBeep(frequency, duration) {
+        // 2. Bilingual i18n Translation Dictionary
+        let currentLang = 'zh'; // Default Cantonese
+
+        const i18nDict = {
+            zh: {
+                title: "2026 瀨戶內海備戰",
+                badgeCore: "核心強化",
+                subtitle: "專為單車手設計的 30 分鐘每晚高強度循環訓練",
+                langBtn: "English",
+                ttsLabel: "語音播報: ON",
+                ttsLabelOff: "語音播報: OFF",
+                bgmLabel: "背景音樂: ON",
+                bgmLabelOff: "背景音樂: OFF",
+                bgmVol: "BGM音量",
+                configTitle: "訓練參數設定",
+                warmupTitle: "動態熱身 (Warm-up)",
+                warmupDesc: "5 分鐘，激活核心",
+                cooldownTitle: "拉筋伸展 (Cool-down)",
+                cooldownDesc: "5 分鐘，針對性放鬆",
+                workTime: "動作執行時間 (工作)",
+                restTime: "動作間休息時間 (休息)",
+                setRestTime: "組與組休息時間 (組間休息)",
+                estTotalLabel: "預估訓練總長度",
+                estTotalSub: "包含熱身及組間大休息",
+                startBtn: "開始訓練",
+                pauseBtn: "暫停計時",
+                resumeBtn: "繼續計時",
+                prevBtn: "上一個動作",
+                skipBtn: "跳過動作",
+                timelineProg: "當前進度",
+                footerText: "© 2026 瀨戶內海單車作戰備忘錄 · 核心肌肉，是您攻克島波海道最牢靠的「避震器」！",
+                resetBtn: " 重設計時器",
+                // Badges/Status
+                setBadgeWait: "組數: 等待開始",
+                setBadgeWarm: "熱身階段",
+                setBadgeSet: (s) => `第 ${s} 組 (Set ${s})`,
+                setBadgeRest: "大組間休息",
+                setBadgeCD: "放鬆復原",
+                progressLabel: "總進度",
+                readyLabel: "請點擊下方 START 按鈕開始",
+                // Exercises flow generic names
+                exWarmupTitle: "動態熱身 (Warm-up)",
+                exWarmupSub: "伸展核心與下背部關節",
+                exWarmupTip: "慢跑、雙手繞環、貓狗式伸展。主要喚醒手腕、肩膀及核心穩定性！",
+                exRestTitle: "休息時段 (Rest)",
+                exRestSub: (next) => `準備下一個動作：${next}`,
+                exRestTip: "深呼吸放鬆肌肉。準備下個動作，姿勢大於次數！",
+                exSetRestTitle: "大組間休息",
+                exSetRestSub: (s) => `完成第 ${s} 組！準備進入第 ${s+1} 組`,
+                exSetRestTip: "飲一兩口水、稍微放鬆肩膀、輕輕伸展下背。準備迎接下一大組！",
+                exCooldownTitle: "拉筋伸展 (Cool-down)",
+                exCooldownSub: "深層復原伸展",
+                exCooldownTip: "貓狗式伸展、嬰兒式。對放鬆單車騎行後緊繃的脊椎與背肌極其關鍵！",
+                finishTitle: "👑 凱旋尾道！",
+                finishSub: "核心大功告成！",
+                finishTip: "恭喜你！核心已成功充能。今晚的努力，就是你 2026 島波海道遠征最穩健的保障。休息去浸溫泉啦！",
+                // TTS Speech Audio Cues
+                ttsNextUp: (name) => `下一動，${name}。請準備。`,
+                ttsRest: (next) => `休息時間。下一個動作，是${next}。`,
+                ttsSetRest: "太好了！完成本組訓練。大組間休息。",
+                ttsWarmup: "準備開始熱身，請放鬆呼吸。",
+                ttsCooldown: "恭喜完成核心主訓練，現在開始全身舒緩伸展。",
+                ttsFinish: "恭喜你！今晚嘅核心訓練已經完成，距離出發更近一步！",
+                ttsLangChange: "已切換至廣東話語音"
+            },
+            en: {
+                title: "2026 Setouchi Prep",
+                badgeCore: "Core Strength",
+                subtitle: "A nightly 30-minute high-intensity circuit custom designed for cyclists",
+                langBtn: "繁體中文",
+                ttsLabel: "Voice Guide: ON",
+                ttsLabelOff: "Voice Guide: OFF",
+                bgmLabel: "BGM Synth: ON",
+                bgmLabelOff: "BGM Synth: OFF",
+                bgmVol: "BGM Vol",
+                configTitle: "Workout Configuration",
+                warmupTitle: "Dynamic Warm-up",
+                warmupDesc: "5 mins to activate major core groups",
+                cooldownTitle: "Cool-down & Stretch",
+                cooldownDesc: "5 mins of target posture relief",
+                workTime: "Exercise Interval (Work)",
+                restTime: "Inter-exercise Interval (Rest)",
+                setRestTime: "Inter-set Rest Interval",
+                estTotalLabel: "Est. Total Duration",
+                estTotalSub: "Includes warm-ups, cool-downs, and major rests",
+                startBtn: "Start Workout",
+                pauseBtn: "Pause Timer",
+                resumeBtn: "Resume Timer",
+                prevBtn: "Previous",
+                skipBtn: "Skip Step",
+                timelineProg: "Current Progress",
+                footerText: "© 2026 Setouchi Cycling Expedition. Strong core is your bike's ultimate shock absorber!",
+                resetBtn: " Reset Timer",
+                // Badges/Status
+                setBadgeWait: "Set: Waiting",
+                setBadgeWarm: "Warm-up Phase",
+                setBadgeSet: (s) => `Set ${s} of 3`,
+                setBadgeRest: "Major Inter-set Rest",
+                setBadgeCD: "Cool-down / Recovery",
+                progressLabel: "Total",
+                readyLabel: "Click the START button below to begin",
+                // Exercises flow generic names
+                exWarmupTitle: "Dynamic Warm-up",
+                exWarmupSub: "Joint & Spine Activation",
+                exWarmupTip: "Gentle mobility work, arm circles, cat-cow. Wake up shoulders, lower back, and core stabilization!",
+                exRestTitle: "Recovery Interval (Rest)",
+                exRestSub: (next) => `Next Up: ${next}`,
+                exRestTip: "Inhale deep, let muscles relax. Prioritize absolute form quality over quick reps!",
+                exSetRestTitle: "Major Set Rest",
+                exSetRestSub: (s) => `Set ${s} complete! Preparing for Set ${s+1}`,
+                exSetRestTip: "Take a small sip of water, shake out shoulders, do gentle spinal stretches. Gear up for the next set!",
+                exCooldownTitle: "Target Stretch (Cool-down)",
+                exCooldownSub: "Post-ride Muscular Decompression",
+                exCooldownTip: "Spinal child's pose, cat-cow stretch. Vital to decompress thoracic tight spots after long saddle hours!",
+                finishTitle: "👑 Onomichi Triumph!",
+                finishSub: "Core Mission Accomplished!",
+                finishTip: "Congratulations! Your core is now armed. Tonight's grit is your insurance policy for the 2026 Shimanami Kaido climbs. Time for an Onsen!",
+                // TTS Speech Audio Cues
+                ttsNextUp: (name) => `Next up: ${name}. Get ready.`,
+                ttsRest: (next) => `Rest time. Next up is ${next}.`,
+                ttsSetRest: "Great job! Major set complete. Enjoy your inter-set break.",
+                ttsWarmup: "Preparing to warm up. Focus on smooth, deep breathing.",
+                ttsCooldown: "Excellent work! Core circuit complete. Let's transition to stretching.",
+                ttsFinish: "Congratulations! You have completed tonight's core conditioning session. One step closer to departure!",
+                ttsLangChange: "Voice guide switched to English"
+            }
+        };
+
+        // --- LANGUAGE SWITCHING MECHANISM ---
+        function toggleLanguage() {
+            currentLang = (currentLang === 'zh') ? 'en' : 'zh';
+            
+            // Save active seconds remaining to avoid state wipe-out
+            const savedTimerVal = timerVal;
+            
+            // Re-render UI Labels and Exercises strings
+            applyTranslations();
+            rebuildQueue();
+            
+            // Reload visual state safely
+            loadStep(currentStepIndex);
+            timerVal = savedTimerVal; 
+            updateClockDisplay();
+            
+            // Speak confirmation
+            speakSentence(i18nDict[currentLang].ttsLangChange);
+        }
+
+        function applyTranslations() {
+            const t = i18nDict[currentLang];
+            document.getElementById('ui-header-title').innerText = t.title;
+            document.getElementById('ui-badge-core').innerText = t.badgeCore;
+            document.getElementById('ui-header-subtitle').innerText = t.subtitle;
+            document.getElementById('lang-btn').innerText = `🌐 ${t.langBtn}`;
+            document.getElementById('ui-config-title').innerText = t.configTitle;
+            document.getElementById('ui-warmup-title').innerText = t.warmupTitle;
+            document.getElementById('ui-warmup-desc').innerText = t.warmupDesc;
+            document.getElementById('ui-cooldown-title').innerText = t.cooldownTitle;
+            document.getElementById('ui-cooldown-desc').innerText = t.cooldownDesc;
+            document.getElementById('ui-work-lbl').innerText = t.workTime;
+            document.getElementById('ui-rest-lbl').innerText = t.restTime;
+            document.getElementById('ui-setrest-lbl').innerText = t.setRestTime;
+            document.getElementById('ui-est-label').innerText = t.estTotalLabel;
+            document.getElementById('ui-est-sub').innerText = t.estTotalSub;
+            document.getElementById('ui-timeline-prog').innerText = t.timelineProg;
+            document.getElementById('ui-footer-text').innerHTML = t.footerText;
+            document.getElementById('ui-prev-btn').innerText = t.prevBtn;
+            document.getElementById('ui-skip-btn').innerText = t.skipBtn;
+            document.getElementById('ui-vol-lbl').innerText = t.bgmVol;
+
+            // Trigger labels re-rendering - ORDER MATTERS!
+            updateSettingsLabels();      // 1. Rebuilds queue and estimated totals first
+            updatePlayPauseButtonLabel(); // 2. Safe now as workoutQueue is initialized
+            updateSpeechButtonLabel();
+            updateBGMButtonLabel();
+        }
+
+        // Web Audio Context & Node Chains initialization
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContextClass();
+
+        // Main gain nodes for precise volume control
+        const masterGain = audioCtx.createGain();
+        masterGain.connect(audioCtx.destination);
+        masterGain.gain.value = 1.0;
+
+        const bgmGain = audioCtx.createGain();
+        bgmGain.connect(masterGain);
+        // Default BGM volume starts at 40%
+        let currentBGMVolumeRatio = 0.4;
+        bgmGain.gain.value = currentBGMVolumeRatio;
+
+        const sfxGain = audioCtx.createGain();
+        sfxGain.connect(masterGain);
+        sfxGain.gain.value = 0.8;
+
+        // --- 1. CRISP TIMING CLICK SOUNDS & CHIMES ---
+        function playClickSound() {
             try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.frequency.value = frequency;
+                gain.connect(sfxGain);
+
                 osc.type = "sine";
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                // Fast pitch sweep
+                osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
+
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+
                 osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + duration);
+                osc.stop(audioCtx.currentTime + 0.06);
             } catch(e) {
-                console.log("Audio contexts blocked or inactive:", e);
+                console.log("Audio SFX Click error:", e);
             }
         }
 
-        // Speech Engine Config (Cantonese fallback default)
+        function playChimeDing() {
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                
+                // Frequency pair to create a perfect harmonious bell chime
+                const freqs = [880, 1100]; 
+                freqs.forEach(f => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(sfxGain);
+
+                    osc.type = "triangle";
+                    osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+
+                    osc.start(audioCtx.currentTime);
+                    osc.stop(audioCtx.currentTime + 0.9);
+                });
+            } catch(e) {
+                console.log("Audio SFX Chime error:", e);
+            }
+        }
+
+        // --- 2. PROCEDURAL BGM SEQUENCER (120BPM Cycling) ---
+        let isBGMPlaying = false;
+        let isBGMEnabled = false;
+        let seqIntervalId = null;
+        let currentBGMStep = 0;
+        let nextBGMStepTime = 0.0;
+        const BGM_BPM = 120;
+        const stepDuration = 60 / BGM_BPM / 4; // 16th Notes
+
+        function playSynthKick(time) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(bgmGain);
+
+            osc.frequency.setValueAtTime(150, time);
+            osc.frequency.exponentialRampToValueAtTime(40, time + 0.12);
+
+            gain.gain.setValueAtTime(0.6, time);
+            gain.gain.exponentialRampToValueAtTime(0.001, time + 0.15);
+
+            osc.start(time);
+            osc.stop(time + 0.16);
+        }
+
+        function playSynthHiHat(time) {
+            const bufferSize = audioCtx.sampleRate * 0.05; // 50ms
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+
+            const noiseSource = audioCtx.createBufferSource();
+            noiseSource.buffer = buffer;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = "highpass";
+            filter.frequency.setValueAtTime(8000, time);
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.12, time);
+            gain.gain.exponentialRampToValueAtTime(0.001, time + 0.04);
+
+            noiseSource.connect(filter);
+            filter.connect(gain);
+            gain.connect(bgmGain);
+
+            noiseSource.start(time);
+            noiseSource.stop(time + 0.05);
+        }
+
+        function playSynthBassNote(freq, time, duration) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(bgmGain);
+
+            osc.type = "triangle";
+            osc.frequency.setValueAtTime(freq, time);
+
+            gain.gain.setValueAtTime(0.25, time);
+            gain.gain.linearRampToValueAtTime(0.15, time + duration * 0.4);
+            gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
+
+            osc.start(time);
+            osc.stop(time + duration + 0.05);
+        }
+
+        function bgmSequenceScheduler() {
+            while (nextBGMStepTime < audioCtx.currentTime + 0.1) {
+                scheduleBGMStep(currentBGMStep, nextBGMStepTime);
+                nextBGMStepTime += stepDuration;
+                currentBGMStep = (currentBGMStep + 1) % 16;
+            }
+        }
+
+        function scheduleBGMStep(step, time) {
+            let bassFreq = 110.0; // A2
+            if (currentStepIndex % 32 < 8) {
+                bassFreq = 110.00; // A2 (Am)
+            } else if (currentStepIndex % 32 < 16) {
+                bassFreq = 87.31;  // F2 (F)
+            } else if (currentStepIndex % 32 < 24) {
+                bassFreq = 130.81; // C3 (C)
+            } else {
+                bassFreq = 97.99;  // G2 (G)
+            }
+
+            if (step === 0 || step === 4 || step === 8 || step === 12) {
+                playSynthKick(time);
+            }
+
+            if (step === 2 || step === 6 || step === 10 || step === 14) {
+                playSynthHiHat(time);
+            }
+
+            if (step === 0 || step === 3 || step === 6 || step === 8 || step === 11 || step === 14) {
+                const pitchMultiplier = (step === 6 || step === 14) ? 1.5 : 1.0;
+                playSynthBassNote(bassFreq * pitchMultiplier, time, stepDuration * 0.95);
+            }
+        }
+
+        function toggleBGM() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            isBGMEnabled = !isBGMEnabled;
+            updateBGMButtonLabel();
+
+            if (isBGMEnabled) {
+                startSynthBGM();
+            } else {
+                stopSynthBGM();
+            }
+        }
+
+        // Keep BGM Labels consistent
+        function updateBGMButtonLabel() {
+            const bgmBtn = document.getElementById('bgm-btn');
+            const t = i18nDict[currentLang];
+            if (isBGMEnabled) {
+                bgmBtn.innerText = t.bgmLabel;
+                bgmBtn.className = "px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-emerald-500/10 shadow-lg";
+            } else {
+                bgmBtn.innerText = t.bgmLabelOff;
+                bgmBtn.className = "px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 text-xs font-semibold flex items-center gap-1.5 transition-all";
+            }
+        }
+
+        function startSynthBGM() {
+            if (isBGMPlaying) return;
+            isBGMPlaying = true;
+            currentBGMStep = 0;
+            nextBGMStepTime = audioCtx.currentTime + 0.05;
+            seqIntervalId = setInterval(bgmSequenceScheduler, 25);
+        }
+
+        function stopSynthBGM() {
+            if (!isBGMPlaying) return;
+            isBGMPlaying = false;
+            clearInterval(seqIntervalId);
+            seqIntervalId = null;
+        }
+
+        function adjustBGMVolume(val) {
+            currentBGMVolumeRatio = val / 100;
+            bgmGain.gain.value = currentBGMVolumeRatio;
+        }
+
+        // --- 3. SPEECH SYNTHESIS DUAL LANGUAGE WITH AUTO AUDIO DUCKING ---
         let isSpeechEnabled = true;
+
         function toggleSpeech() {
             isSpeechEnabled = !isSpeechEnabled;
-            const speechIcon = document.getElementById('speech-icon');
+            updateSpeechButtonLabel();
             if (isSpeechEnabled) {
-                speechIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />`;
-                speakSentence("語音播報已開啟");
+                speakSentence(i18nDict[currentLang].ttsLangChange);
             } else {
-                speechIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />`;
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function updateSpeechButtonLabel() {
+            const speechBtn = document.getElementById('speech-btn');
+            const speechIcon = document.getElementById('speech-icon');
+            const t = i18nDict[currentLang];
+
+            if (isSpeechEnabled) {
+                speechBtn.innerText = t.ttsLabel;
+                speechBtn.className = "px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 text-xs font-semibold flex items-center gap-1.5 transition-all";
+                speechIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />`;
+            } else {
+                speechBtn.innerText = t.ttsLabelOff;
+                speechBtn.className = "px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 text-xs font-semibold flex items-center gap-1.5 transition-all";
+                speechIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />`;
             }
         }
 
         function speakSentence(text) {
             if (!isSpeechEnabled) return;
-            // cancel any pending utterances immediately
             window.speechSynthesis.cancel();
+            
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = "zh-HK"; // Default to Cantonese
+            utterance.lang = (currentLang === 'en') ? "en-US" : "zh-HK"; 
             utterance.rate = 1.0;
+
+            // Intelligent Audio Ducking Integration
+            utterance.onstart = function() {
+                bgmGain.gain.setValueAtTime(currentBGMVolumeRatio, audioCtx.currentTime);
+                bgmGain.gain.exponentialRampToValueAtTime(currentBGMVolumeRatio * 0.15, audioCtx.currentTime + 0.15);
+            };
+
+            utterance.onend = function() {
+                bgmGain.gain.setValueAtTime(currentBGMVolumeRatio * 0.15, audioCtx.currentTime);
+                bgmGain.gain.exponentialRampToValueAtTime(currentBGMVolumeRatio, audioCtx.currentTime + 0.5);
+            };
+
+            utterance.onerror = function() {
+                bgmGain.gain.setValueAtTime(currentBGMVolumeRatio, audioCtx.currentTime);
+            };
+
             window.speechSynthesis.speak(utterance);
         }
 
@@ -309,10 +805,10 @@
         let isTimerRunning = false;
         let intervalId = null;
 
-        // On Load Configuration Initialize
+        // On Load Configuration Initialize (Apply fix here)
         window.onload = function() {
-            updateSettingsLabels();
-            resetWorkout();
+            applyTranslations();
+            resetWorkout(); // Loads display & progress bars correctly on page open
         }
 
         function updateSettingsLabels() {
@@ -320,9 +816,9 @@
             const rest = document.getElementById('rest-duration').value;
             const setRest = document.getElementById('set-rest-duration').value;
 
-            document.getElementById('work-time-label').innerText = `${work} 秒`;
-            document.getElementById('rest-time-label').innerText = `${rest} 秒`;
-            document.getElementById('set-rest-label').innerText = `${setRest} 秒`;
+            document.getElementById('work-time-label').innerText = `${work} ${currentLang === 'en' ? 'secs' : '秒'}`;
+            document.getElementById('rest-time-label').innerText = `${rest} ${currentLang === 'en' ? 'secs' : '秒'}`;
+            document.getElementById('set-rest-label').innerText = `${setRest} ${currentLang === 'en' ? 'secs' : '秒'}`;
 
             calculateEstimatedTotal();
             if (!isTimerRunning) {
@@ -343,17 +839,14 @@
             // 3 Sets
             for (let s = 1; s <= 3; s++) {
                 workoutsModel.forEach((item, idx) => {
-                    // Custom active time or side plank specific (30s default scaling)
                     let activeTime = (item.id.includes('sideplank')) ? 30 : work;
                     totalSecs += activeTime;
 
-                    // Rest after each exercise except the very last one of the set
                     if (idx < workoutsModel.length - 1) {
                         totalSecs += rest;
                     }
                 });
 
-                // Set rest after Set 1 and Set 2
                 if (s < 3) {
                     totalSecs += setRest;
                 }
@@ -363,7 +856,12 @@
 
             const mins = Math.floor(totalSecs / 60);
             const secs = totalSecs % 60;
-            document.getElementById('total-estimate').innerText = `~${mins} 分 ${secs.toString().padStart(2, '0')} 秒`;
+            
+            const formatStr = currentLang === 'en' 
+                ? `~${mins} min ${secs.toString().padStart(2, '0')} sec` 
+                : `~${mins} 分 ${secs.toString().padStart(2, '0')} 秒`;
+            
+            document.getElementById('total-estimate').innerText = formatStr;
             totalWorkoutDuration = totalSecs;
         }
 
@@ -375,82 +873,78 @@
             const work = parseInt(document.getElementById('work-duration').value);
             const rest = parseInt(document.getElementById('rest-duration').value);
             const setRest = parseInt(document.getElementById('set-rest-duration').value);
+            const t = i18nDict[currentLang];
 
-            // Step 1: Add Warm-up
             if (isWarmup) {
                 workoutQueue.push({
-                    name: "動態熱身 (Warm-up)",
-                    subtitle: "伸展核心與下背部關節",
+                    name: t.exWarmupTitle,
+                    subtitle: t.exWarmupSub,
                     duration: 300,
                     type: "warmup",
-                    set: "熱身階段",
-                    tip: "慢跑、雙手繞環、貓狗式伸展。主要喚醒手腕、肩膀及核心穩定性！"
+                    set: t.setBadgeWarm,
+                    tip: t.exWarmupTip
                 });
             }
 
-            // Step 2: Add 3 Sets
             for (let s = 1; s <= 3; s++) {
                 workoutsModel.forEach((item, idx) => {
                     let activeTime = (item.id.includes('sideplank')) ? 30 : work;
                     workoutQueue.push({
-                        name: item.name,
-                        subtitle: `動作進行中 (${idx + 1} / 8)`,
+                        name: item.name[currentLang],
+                        subtitle: currentLang === 'zh' ? `動作進行中 (${idx + 1} / 8)` : `Active Exercise (${idx + 1} / 8)`,
                         duration: activeTime,
                         type: "work",
-                        set: `第 ${s} 組 (Set ${s})`,
-                        tip: item.tip
+                        set: t.setBadgeSet(s),
+                        tip: item.tip[currentLang]
                     });
 
-                    // Check if it's the final Side Plank (Right) of Set 3
                     const isLastOfSet = idx === workoutsModel.length - 1;
                     if (!isLastOfSet) {
                         workoutQueue.push({
-                            name: `休息時段 (Rest)`,
-                            subtitle: `準備下一個動作：${workoutsModel[idx + 1].name}`,
+                            name: t.exRestTitle,
+                            subtitle: t.exRestSub(workoutsModel[idx + 1].name[currentLang]),
                             duration: rest,
                             type: "rest",
-                            set: `第 ${s} 組 (Set ${s})`,
-                            tip: "深呼吸放鬆肌肉。準備下個動作，姿勢大於次數！",
-                            nextUp: workoutsModel[idx + 1].name
+                            set: t.setBadgeSet(s),
+                            tip: t.exRestTip,
+                            nextUp: workoutsModel[idx + 1].name[currentLang]
                         });
                     } else if (s < 3) {
-                        // Big rest between major sets
                         workoutQueue.push({
-                            name: `大組間休息`,
-                            subtitle: `完成第 ${s} 組！準備進入第 ${s + 1} 組`,
+                            name: t.exSetRestTitle,
+                            subtitle: t.exSetRestSub(s),
                             duration: setRest,
                             type: "setrest",
-                            set: "大組間休息",
-                            tip: "飲一兩口水、稍微放鬆肩膀、輕輕伸展下背。準備迎接下一大組！",
-                            nextUp: `Set ${s+1} - ${workoutsModel[0].name}`
+                            set: t.setBadgeRest,
+                            tip: t.exSetRestTip,
+                            nextUp: `Set ${s+1} - ${workoutsModel[0].name[currentLang]}`
                         });
                     }
                 });
             }
 
-            // Step 3: Add Cool-down
             if (isCooldown) {
                 workoutQueue.push({
-                    name: "拉筋伸展 (Cool-down)",
-                    subtitle: "深層復原伸展",
+                    name: t.exCooldownTitle,
+                    subtitle: t.exCooldownSub,
                     duration: 300,
                     type: "cooldown",
-                    set: "放鬆復原",
-                    tip: "貓狗式伸展、嬰兒式。對放鬆單車騎行後緊繃的脊椎與背肌極其關鍵！"
+                    set: t.setBadgeCD,
+                    tip: t.exCooldownTip
                 });
             }
 
             renderTimelineProgressBars();
         }
 
-        // Render the tiny visualization progress bars
         function renderTimelineProgressBars() {
             const container = document.getElementById('overall-progress-bar');
+            if (!container) return;
             container.innerHTML = '';
             workoutQueue.forEach((step, idx) => {
                 const bar = document.createElement('div');
                 bar.id = `bar-step-${idx}`;
-                bar.style.flexGrow = step.duration; // Weight width based on seconds
+                bar.style.flexGrow = step.duration;
                 bar.className = 'h-full border-r border-slate-950 transition-colors duration-300 bg-slate-800';
                 container.appendChild(bar);
             });
@@ -461,13 +955,10 @@
                 const bar = document.getElementById(`bar-step-${idx}`);
                 if (!bar) return;
                 if (idx < currentStepIndex) {
-                    // Completed step color
                     bar.className = 'h-full border-r border-slate-950 transition-colors duration-300 bg-emerald-500';
                 } else if (idx === currentStepIndex) {
-                    // Active step flashing color
                     bar.className = 'h-full border-r border-slate-950 transition-colors duration-300 bg-emerald-400 animate-pulse';
                 } else {
-                    // Future step colors
                     if (step.type === 'rest' || step.type === 'setrest') {
                         bar.className = 'h-full border-r border-slate-950 transition-colors duration-300 bg-slate-800';
                     } else {
@@ -475,11 +966,16 @@
                     }
                 }
             });
-            document.getElementById('timeline-progress').innerText = `${currentStepIndex + 1} / ${workoutQueue.length} 步`;
+            
+            const stepLbl = currentLang === 'en' ? 'Step' : '步';
+            document.getElementById('timeline-progress').innerText = `${currentStepIndex + 1} / ${workoutQueue.length} ${stepLbl}`;
         }
 
-        // Main player action trigger
         function togglePlayPause() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
             if (isTimerRunning) {
                 pauseWorkout();
             } else {
@@ -488,14 +984,16 @@
         }
 
         function startWorkout() {
-            // Lock parameter modification settings panel during workout activity
             document.getElementById('config-panel').classList.add('pointer-events-none', 'opacity-60');
             isTimerRunning = true;
 
             document.getElementById('play-icon').innerHTML = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
-            document.getElementById('play-text').innerText = "暫停計時";
+            updatePlayPauseButtonLabel();
 
-            // If we're starting a new step, say it out loud
+            if (isBGMEnabled) {
+                startSynthBGM();
+            }
+
             if (timerVal === workoutQueue[currentStepIndex].duration) {
                 announceActiveStep(workoutQueue[currentStepIndex]);
             }
@@ -506,65 +1004,80 @@
         function pauseWorkout() {
             isTimerRunning = false;
             clearInterval(intervalId);
+            stopSynthBGM();
             document.getElementById('play-icon').innerHTML = `<path d="M8 5v14l11-7z" />`;
-            document.getElementById('play-text').innerText = "繼續計時";
+            updatePlayPauseButtonLabel();
+        }
+
+        // Added defensive conditional array check to prevent initialization crashes
+        function updatePlayPauseButtonLabel() {
+            const playText = document.getElementById('play-text');
+            if (!playText) return;
+            const t = i18nDict[currentLang];
+            if (isTimerRunning) {
+                playText.innerText = t.pauseBtn;
+            } else {
+                if (currentStepIndex === 0 && workoutQueue.length > 0 && timerVal === workoutQueue[0].duration) {
+                    playText.innerText = t.startBtn;
+                } else {
+                    playText.innerText = t.resumeBtn;
+                }
+            }
         }
 
         function resetWorkout() {
             pauseWorkout();
-            // Unlock configuration settings
             document.getElementById('config-panel').classList.remove('pointer-events-none', 'opacity-60');
             currentStepIndex = 0;
             rebuildQueue();
             loadStep(0);
         }
 
-        // Core timer ticks every 1 second
         function tick() {
             if (timerVal > 0) {
                 timerVal--;
                 updateClockDisplay();
                 
-                // Beep warning on final 3, 2, 1 seconds
-                if (timerVal <= 3 && timerVal > 0) {
-                    playBeep(600, 0.1);
+                // Wooden click countdown at final 5, 4, 3, 2, 1 seconds
+                if (timerVal <= 5 && timerVal > 0) {
+                    playClickSound();
                 }
             } else {
-                // Time up transition
-                playBeep(1000, 0.4);
+                // Brass chime gong ding on complete!
+                playChimeDing();
                 nextStep();
             }
         }
 
         function loadStep(index) {
             currentStepIndex = index;
+            if (workoutQueue.length === 0) return;
             const step = workoutQueue[index];
             timerVal = step.duration;
 
-            // UI updates
             document.getElementById('current-title').innerText = step.name;
             document.getElementById('current-subtitle').innerText = step.subtitle;
             document.getElementById('pro-tip').innerText = step.tip;
             document.getElementById('set-badge').innerText = step.set;
 
-            // Next Up Tracker
-            const nextStepText = step.nextUp ? `下一步: ${step.nextUp}` : (workoutQueue[index + 1] ? `下一步: ${workoutQueue[index + 1].name}` : '已完成！');
+            const nextStepText = step.nextUp 
+                ? `${currentLang === 'en' ? 'Next' : '下一步'}: ${step.nextUp}` 
+                : (workoutQueue[index + 1] ? `${currentLang === 'en' ? 'Next' : '下一步'}: ${workoutQueue[index + 1].name}` : (currentLang === 'en' ? 'Finished!' : '已完成！'));
             document.getElementById('next-up').innerText = nextStepText;
 
-            // Shift circular glowing backgrounds to represent dynamic exertion levels
             const bg = document.getElementById('timer-bg');
             if (step.type === 'work') {
                 bg.className = "absolute inset-0 bg-radial-gradient from-emerald-500/10 to-transparent transition-all duration-700 pointer-events-none";
-                document.getElementById('timer-progress-bar').setAttribute('stroke', '#10b981'); // Emerald
+                document.getElementById('timer-progress-bar').setAttribute('stroke', '#10b981');
             } else if (step.type === 'rest') {
                 bg.className = "absolute inset-0 bg-radial-gradient from-amber-500/10 to-transparent transition-all duration-700 pointer-events-none";
-                document.getElementById('timer-progress-bar').setAttribute('stroke', '#f59e0b'); // Amber
+                document.getElementById('timer-progress-bar').setAttribute('stroke', '#f59e0b');
             } else if (step.type === 'setrest') {
                 bg.className = "absolute inset-0 bg-radial-gradient from-blue-500/10 to-transparent transition-all duration-700 pointer-events-none";
-                document.getElementById('timer-progress-bar').setAttribute('stroke', '#3b82f6'); // Blue
+                document.getElementById('timer-progress-bar').setAttribute('stroke', '#3b82f6');
             } else {
                 bg.className = "absolute inset-0 bg-radial-gradient from-teal-500/10 to-transparent transition-all duration-700 pointer-events-none";
-                document.getElementById('timer-progress-bar').setAttribute('stroke', '#14b8a6'); // Teal
+                document.getElementById('timer-progress-bar').setAttribute('stroke', '#14b8a6');
             }
 
             updateClockDisplay();
@@ -573,29 +1086,28 @@
         }
 
         function updateClockDisplay() {
+            if (workoutQueue.length === 0) return;
             const mins = Math.floor(timerVal / 60);
             const secs = timerVal % 60;
             const formatStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
             document.getElementById('big-timer').innerText = formatStr;
 
-            // Dynamic Progress Circle fill offset calculation
             const activeStepTotal = workoutQueue[currentStepIndex].duration;
             const progressRatio = timerVal / activeStepTotal;
-            const strokeOffset = 600 * progressRatio; // 600 matches dasharray setup
+            const strokeOffset = 600 * progressRatio;
             document.getElementById('timer-progress-bar').setAttribute('stroke-dashoffset', strokeOffset);
         }
 
         function updateOverallWorkoutProgressPercent() {
-            // Count completed seconds to compute precise workout completion percentages
+            if (workoutQueue.length === 0) return;
             let completedSecs = 0;
             for (let i = 0; i < currentStepIndex; i++) {
                 completedSecs += workoutQueue[i].duration;
             }
-            // Add current active step's elapsed time
             completedSecs += (workoutQueue[currentStepIndex].duration - timerVal);
 
             const percent = Math.min(100, Math.round((completedSecs / totalWorkoutDuration) * 100));
-            document.getElementById('global-progress-badge').innerText = `總進度: ${percent}%`;
+            document.getElementById('global-progress-badge').innerText = `${i18nDict[currentLang].progressLabel}: ${percent}%`;
         }
 
         function prevStep() {
@@ -618,30 +1130,31 @@
                     announceActiveStep(workoutQueue[currentStepIndex]);
                 }
             } else {
-                // Workout Masterpiece finish line reached!
                 pauseWorkout();
-                document.getElementById('current-title').innerText = "👑 凱旋尾道！";
-                document.getElementById('current-subtitle').innerText = "核心大功告成！";
+                stopSynthBGM();
+                const t = i18nDict[currentLang];
+                document.getElementById('current-title').innerText = t.finishTitle;
+                document.getElementById('current-subtitle').innerText = t.finishSub;
                 document.getElementById('big-timer').innerText = "FINISH";
-                document.getElementById('pro-tip').innerText = "恭喜你！核心已成功充能。今晚的努力，就是你 2026 島波海道遠征最穩健的保障。休息去浸溫泉啦！";
-                speakSentence("恭喜你！今晚嘅核心訓練已經完成，距離出發更近一步！");
+                document.getElementById('pro-tip').innerText = t.finishTip;
+                speakSentence(t.ttsFinish);
                 document.getElementById('speech-btn').disabled = true;
             }
         }
 
-        // Intelligent voice prompt cues
         function announceActiveStep(step) {
             if (!isSpeechEnabled) return;
+            const t = i18nDict[currentLang];
             if (step.type === 'work') {
-                speakSentence(`下一動，${step.name}。請準備。`);
+                speakSentence(t.ttsNextUp(step.name));
             } else if (step.type === 'rest') {
-                speakSentence(`休息時間。下一個動作，是${step.nextUp}。`);
+                speakSentence(t.ttsRest(step.nextUp));
             } else if (step.type === 'setrest') {
-                speakSentence(`太好了！完成本組訓練。大組間休息。`);
+                speakSentence(t.ttsSetRest);
             } else if (step.type === 'warmup') {
-                speakSentence("準備開始熱身，請放鬆呼吸。");
+                speakSentence(t.ttsWarmup);
             } else if (step.type === 'cooldown') {
-                speakSentence("恭喜完成核心主訓練，現在開始全身舒緩伸展。");
+                speakSentence(t.ttsCooldown);
             }
         }
     </script>
