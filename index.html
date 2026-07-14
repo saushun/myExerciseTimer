@@ -10,7 +10,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
         body {
             font-family: 'Lexend Deca', 'Noto Sans TC', sans-serif;
-            background-color: #0f172a;
+            background-color: #060913;
         }
         .animate-pulse-slow {
             animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -23,10 +23,10 @@
             width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #1e293b;
+            background: #0b0f19;
         }
         ::-webkit-scrollbar-thumb {
-            background: #475569;
+            background: #1f2937;
             border-radius: 3px;
         }
     </style>
@@ -34,7 +34,7 @@
 <body class="text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden">
 
     <!-- HEADER -->
-    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4 sticky top-0 z-30">
+    <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur px-6 py-4 sticky top-0 z-30">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
                 <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
@@ -51,154 +51,184 @@
                 </div>
             </div>
 
-            <!-- AUDIO, LANGUAGE & SOUNDS CONTROLS -->
-            <div class="flex flex-wrap items-center justify-center gap-3 bg-slate-800/50 p-2 rounded-xl border border-slate-700/50">
-                <!-- Language Selector -->
-                <button id="lang-btn" onclick="toggleLanguage()" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 hover:bg-emerald-400 text-xs font-bold flex items-center gap-1.5 transition-all shadow-md">
-                    🌐 English
+            <!-- AUDIO, LANGUAGE & SETTINGS PANEL BUTTONS -->
+            <div class="flex flex-wrap items-center justify-center gap-3">
+                <!-- Customise / Settings Trigger Button -->
+                <button onclick="openSettings()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black flex items-center gap-1.5 transition-all shadow-lg active:scale-95">
+                    ⚙️ <span id="ui-customise-btn-txt">自訂設定 / Customise</span>
                 </button>
 
-                <!-- TTS Cantonese Toggle -->
-                <button id="speech-btn" onclick="toggleSpeech()" class="px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 text-xs font-semibold flex items-center gap-1.5 transition-all">
-                    <svg id="speech-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                    </svg>
-                    <span id="ui-speech-lbl">語音播報: ON</span>
-                </button>
+                <div class="flex items-center gap-2 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800/80 text-xs">
+                    <!-- Language Selector -->
+                    <button id="lang-btn" onclick="toggleLanguage()" class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold transition-all">
+                        🌐 English
+                    </button>
 
-                <!-- BGM Synthesizer Toggle -->
-                <button id="bgm-btn" onclick="toggleBGM()" class="px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 text-xs font-semibold flex items-center gap-1.5 transition-all">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                    </svg>
-                    <span id="ui-bgm-lbl">背景音樂: OFF</span>
-                </button>
+                    <!-- TTS Cantonese Toggle -->
+                    <button id="speech-btn" onclick="toggleSpeech()" class="p-1 px-2 rounded-md bg-emerald-500/10 text-emerald-400 font-semibold transition-all">
+                        <span id="ui-speech-lbl">語音播報: ON</span>
+                    </button>
 
-                <!-- Volume Slider -->
-                <div class="flex items-center gap-1.5 px-2">
-                    <span id="ui-vol-lbl" class="text-[10px] text-slate-400 font-bold uppercase">音量</span>
-                    <input type="range" id="bgm-volume" min="0" max="100" value="40" oninput="adjustBGMVolume(this.value)" class="w-16 h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                    <!-- BGM Synthesizer Toggle -->
+                    <button id="bgm-btn" onclick="toggleBGM()" class="p-1 px-2 rounded-md bg-slate-850 text-slate-300 font-semibold transition-all">
+                        <span id="ui-bgm-lbl">背景音樂: OFF</span>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- MAIN GRID CONTAINER -->
-    <main class="max-w-6xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow">
-        
-        <!-- LEFT PANEL: CONFIGURATION -->
-        <section id="config-panel" class="lg:col-span-4 bg-slate-900/50 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between h-fit gap-6 transition-all">
-            <div>
-                <h2 id="ui-config-title" class="text-md font-bold text-slate-200 mb-4 flex items-center gap-2">
-                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    訓練參數設定
-                </h2>
+    <!-- SETTINGS DRAWER OVERLAY -->
+    <div id="settings-overlay" onclick="closeSettings()" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-40 hidden opacity-0 transition-all duration-300"></div>
 
-                <div class="space-y-4">
-                    <!-- Warm-up Toggle -->
-                    <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-xl border border-slate-800/60">
-                        <div>
-                            <span id="ui-warmup-title" class="text-sm font-semibold block text-slate-300">動態熱身 (Warm-up)</span>
-                            <span id="ui-warmup-desc" class="text-xs text-slate-500">5 分鐘，激活核心</span>
-                        </div>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id="toggle-warmup" onchange="updateSettingsLabels()" class="sr-only peer" checked>
-                            <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-                        </label>
-                    </div>
+    <!-- SETTINGS SIDE DRAWER -->
+    <div id="settings-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-slate-950 border-l border-slate-900 z-50 transform translate-x-full transition-all duration-300 flex flex-col justify-between p-6 shadow-2xl overflow-y-auto">
+        <div>
+            <!-- Close header -->
+            <div class="flex justify-between items-center pb-4 border-b border-slate-850 mb-4">
+                <h3 id="ui-config-title" class="font-bold text-white text-md flex items-center gap-2">⚙️ 訓練自訂參數 / Settings</h3>
+                <button onclick="closeSettings()" class="p-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition-all text-xs font-bold px-3">
+                    ✕ <span id="ui-close-btn-txt">關閉</span>
+                </button>
+            </div>
 
-                    <!-- Work Duration -->
-                    <div class="space-y-1.5">
-                        <div class="flex justify-between text-sm">
-                            <span id="ui-work-lbl" class="text-slate-400">動作執行時間 (工作)</span>
-                            <span id="work-time-label" class="text-emerald-400 font-bold">45 秒</span>
-                        </div>
-                        <input type="range" id="work-duration" min="30" max="90" step="5" value="45" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
-                    </div>
+            <!-- Tab Headers -->
+            <div class="flex border-b border-slate-900 mb-5 gap-1">
+                <button id="tab-settings-btn" onclick="switchTab('settings')" class="flex-1 pb-2 text-center text-xs sm:text-sm font-bold border-b-2 border-emerald-500 text-emerald-400 transition-all">
+                    ⚙️ 設定 / Parameters
+                </button>
+                <button id="tab-exercises-btn" onclick="switchTab('exercises')" class="flex-1 pb-2 text-center text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-400 transition-all">
+                    🏃 動作 / Exercises
+                </button>
+            </div>
 
-                    <!-- Rest Duration -->
-                    <div class="space-y-1.5">
-                        <div class="flex justify-between text-sm">
-                            <span id="ui-rest-lbl" class="text-slate-400">動作間休息時間 (休息)</span>
-                            <span id="rest-time-label" class="text-amber-400 font-bold">30 秒</span>
-                        </div>
-                        <input type="range" id="rest-duration" min="15" max="60" step="5" value="30" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+            <!-- TAB 1: BASIC SETTINGS CONTENT -->
+            <div id="tab-settings-content" class="space-y-4">
+                <!-- Set Count Slider -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-sm">
+                        <span id="ui-setcount-lbl" class="text-slate-400 text-xs">總訓練組數</span>
+                        <span id="set-count-label" class="text-emerald-400 font-bold text-xs">3 組</span>
                     </div>
+                    <input type="range" id="set-count" min="1" max="6" step="1" value="3" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                </div>
 
-                    <!-- Set Rest Duration -->
-                    <div class="space-y-1.5">
-                        <div class="flex justify-between text-sm">
-                            <span id="ui-setrest-lbl" class="text-slate-400">組與組休息時間 (組間休息)</span>
-                            <span id="set-rest-label" class="text-blue-400 font-bold">90 秒</span>
-                        </div>
-                        <input type="range" id="set-rest-duration" min="30" max="180" step="15" value="90" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                <!-- Warm-up Toggle -->
+                <div class="flex items-center justify-between p-3 bg-slate-900/40 rounded-xl border border-slate-850">
+                    <div>
+                        <span id="ui-warmup-title" class="text-xs font-semibold block text-slate-300">動態熱身 (Warm-up)</span>
+                        <span id="ui-warmup-desc" class="text-[10px] text-slate-500">5 分鐘，激活核心</span>
                     </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-warmup" onchange="updateSettingsLabels()" class="sr-only peer" checked>
+                        <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                    </label>
+                </div>
 
-                    <!-- Cool-down Toggle -->
-                    <div class="flex items-center justify-between p-3 bg-slate-800/40 rounded-xl border border-slate-800/60">
-                        <div>
-                            <span id="ui-cooldown-title" class="text-sm font-semibold block text-slate-300">拉筋伸展 (Cool-down)</span>
-                            <span id="ui-cooldown-desc" class="text-xs text-slate-500">5 分鐘，針對性放鬆</span>
-                        </div>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id="toggle-cooldown" onchange="updateSettingsLabels()" class="sr-only peer" checked>
-                            <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-                        </label>
+                <!-- Default Work Duration -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-sm">
+                        <span id="ui-work-lbl" class="text-slate-400 text-xs">動作預設執行時間</span>
+                        <span id="work-time-label" class="text-emerald-400 font-bold text-xs">45 秒</span>
                     </div>
+                    <input type="range" id="work-duration" min="15" max="120" step="5" value="45" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                </div>
+
+                <!-- Rest Duration -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-sm">
+                        <span id="ui-rest-lbl" class="text-slate-400 text-xs">動作間休息時間 (休息)</span>
+                        <span id="rest-time-label" class="text-amber-400 font-bold text-xs">30 秒</span>
+                    </div>
+                    <input type="range" id="rest-duration" min="10" max="60" step="5" value="30" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                </div>
+
+                <!-- Set Rest Duration -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-sm">
+                        <span id="ui-setrest-lbl" class="text-slate-400 text-xs">組與組休息時間 (組間休息)</span>
+                        <span id="set-rest-label" class="text-blue-400 font-bold text-xs">90 秒</span>
+                    </div>
+                    <input type="range" id="set-rest-duration" min="30" max="180" step="15" value="90" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                </div>
+
+                <!-- Cool-down Toggle -->
+                <div class="flex items-center justify-between p-3 bg-slate-900/40 rounded-xl border border-slate-850">
+                    <div>
+                        <span id="ui-cooldown-title" class="text-xs font-semibold block text-slate-300">拉筋伸展 (Cool-down)</span>
+                        <span id="ui-cooldown-desc" class="text-[10px] text-slate-500">5 分鐘，針對性放鬆</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-cooldown" onchange="updateSettingsLabels()" class="sr-only peer" checked>
+                        <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                    </label>
                 </div>
             </div>
 
-            <!-- Total Estimated Time Card -->
-            <div class="mt-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-center">
-                <span id="ui-est-label" class="text-xs text-emerald-400/80 uppercase tracking-widest font-bold">預估訓練總長度</span>
-                <div id="total-estimate" class="text-2xl font-black text-white mt-1">~30 分 00 秒</div>
-                <p id="ui-est-sub" class="text-[10px] text-slate-400 mt-1">包含熱身及組間大休息</p>
+            <!-- TAB 2: EXERCISES LIST CONTENT -->
+            <div id="tab-exercises-content" class="hidden space-y-3 max-h-[380px] overflow-y-auto pr-1">
+                <!-- Populated dynamically via JS -->
             </div>
-        </section>
+        </div>
 
+        <!-- Drawer footer card -->
+        <div class="mt-6 pt-4 border-t border-slate-850">
+            <div class="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-center">
+                <span id="ui-est-label" class="text-[10px] text-emerald-400/80 uppercase tracking-widest font-bold">預估訓練總長度</span>
+                <div id="total-estimate" class="text-xl font-black text-white mt-0.5">~30 分 00 秒</div>
+                <p id="ui-est-sub" class="text-[9px] text-slate-500 mt-0.5">包含熱身及組間大休息</p>
+            </div>
+            <!-- BGM Volume Section inside Drawer -->
+            <div class="flex items-center justify-between mt-3 px-1">
+                <span id="ui-vol-lbl" class="text-[10px] text-slate-400 font-bold uppercase">BGM 音量</span>
+                <input type="range" id="bgm-volume" min="0" max="100" value="40" oninput="adjustBGMVolume(this.value)" class="w-24 h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN TIMER VIEW (Expanded & Perfectly Cleaned) -->
+    <main class="max-w-3xl w-full mx-auto p-4 sm:p-6 flex-grow flex flex-col justify-center gap-6">
+        
         <!-- CENTER PANEL: ACTIVE TIMER -->
-        <section class="lg:col-span-8 flex flex-col justify-between gap-6">
+        <section class="flex flex-col justify-between gap-6 w-full">
             
             <!-- MAIN DISPLAY -->
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-center items-center text-center relative overflow-hidden h-[450px] shadow-2xl">
+            <div class="bg-slate-900/20 border border-slate-800/60 rounded-3xl p-6 sm:p-8 flex flex-col justify-center items-center text-center relative overflow-hidden h-[390px] shadow-2xl">
                 <!-- Outer Ring Glowing Background Effects based on status -->
                 <div id="timer-bg" class="absolute inset-0 bg-radial-gradient from-emerald-500/5 to-transparent transition-all duration-700 pointer-events-none"></div>
 
                 <!-- Set & Progress badge -->
                 <div class="mb-4 z-10 flex gap-2">
-                    <span id="set-badge" class="px-3 py-1 bg-slate-800 border border-slate-700 text-xs text-slate-300 rounded-full font-bold">組數: 等待開始</span>
-                    <span id="global-progress-badge" class="px-3 py-1 bg-slate-800 border border-slate-700 text-xs text-slate-300 rounded-full font-bold">總進度: 0%</span>
+                    <span id="set-badge" class="px-3 py-1 bg-slate-950 border border-slate-800 text-xs text-slate-400 rounded-full font-bold">組數: 等待開始</span>
+                    <span id="global-progress-badge" class="px-3 py-1 bg-slate-950 border border-slate-800 text-xs text-slate-400 rounded-full font-bold">總進度: 0%</span>
                 </div>
 
                 <!-- Big Exercise Title -->
-                <h3 id="current-title" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2 z-10 transition-all duration-300">
+                <h3 id="current-title" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-1 z-10 transition-all duration-300">
                     核心備戰計畫
                 </h3>
-                <p id="current-subtitle" class="text-sm text-emerald-400 font-medium mb-6 tracking-wide uppercase z-10">
+                <p id="current-subtitle" class="text-xs text-emerald-400 font-medium mb-5 tracking-wide uppercase z-10">
                     請點擊下方 START 按鈕開始
                 </p>
 
                 <!-- Giant Circular Progress Timer -->
-                <div class="relative w-44 h-44 sm:w-52 sm:h-52 mb-6 z-10">
+                <div class="relative w-32 h-36 sm:w-40 sm:h-40 mb-6 z-10">
                     <svg class="w-full h-full transform -rotate-90">
                         <!-- Background Circle -->
-                        <circle cx="50%" cy="50%" r="44%" stroke="#1e293b" stroke-width="10" fill="transparent" />
-                        <!-- Foreground Circle (Active Countdown Progress) -->
-                        <circle id="timer-progress-bar" cx="50%" cy="50%" r="44%" stroke="#10b981" stroke-width="10" fill="transparent" stroke-dasharray="600" stroke-dashoffset="0" class="transition-all duration-200" />
+                        <circle cx="50%" cy="50%" r="44%" stroke="#111827" stroke-width="8" fill="transparent" />
+                        <!-- Foreground Circle -->
+                        <circle id="timer-progress-bar" cx="50%" cy="50%" r="44%" stroke="#10b981" stroke-width="8" fill="transparent" stroke-dasharray="600" stroke-dashoffset="0" class="transition-all duration-200" />
                     </svg>
                     <!-- Digits inside Circle -->
                     <div class="absolute inset-0 flex flex-col justify-center items-center">
-                        <span id="big-timer" class="text-5xl sm:text-6xl font-black text-white tracking-tighter tabular-nums leading-none">00:00</span>
-                        <span id="next-up" class="text-[10px] sm:text-xs text-slate-400 mt-2 max-w-[130px] truncate">準備開始</span>
+                        <span id="big-timer" class="text-4xl sm:text-5xl font-black text-white tracking-tighter tabular-nums leading-none">00:00</span>
+                        <span id="next-up" class="text-[9px] sm:text-[10px] text-slate-400 mt-2 max-w-[110px] truncate">準備開始</span>
                     </div>
                 </div>
 
                 <!-- Cycling Live Pro-Tips Panel -->
-                <div id="pro-tip-box" class="z-10 p-4 bg-slate-800/50 border border-slate-800 rounded-xl max-w-lg min-h-[70px] flex items-center justify-center transition-all duration-500">
-                    <p id="pro-tip" class="text-sm text-slate-300 text-center leading-relaxed">
+                <div id="pro-tip-box" class="z-10 p-3.5 bg-slate-950/80 border border-slate-900 rounded-2xl w-full max-w-lg min-h-[64px] flex items-center justify-center transition-all duration-500 shadow-lg">
+                    <p id="pro-tip" class="text-xs sm:text-sm text-slate-400 text-center leading-relaxed">
                         「有強壯的核心，才能穩健地踩上 400 米海拔的境目峠與島波海道大橋！」
                     </p>
                 </div>
@@ -207,37 +237,37 @@
             <!-- CONTROLLER BUTTONS -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <!-- Previous Step button -->
-                <button onclick="prevStep()" class="px-6 py-4 bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800/80 rounded-2xl flex items-center justify-center gap-2 font-bold transition-all shadow-lg active:scale-95">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button onclick="prevStep()" class="px-5 py-3.5 bg-slate-950 border border-slate-900 text-slate-300 hover:text-white hover:bg-slate-900/80 rounded-2xl flex items-center justify-center gap-2 font-bold transition-all shadow-md active:scale-95 text-xs sm:text-sm">
+                    <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
                     </svg>
                     <span id="ui-prev-btn">上一個動作</span>
                 </button>
 
                 <!-- PLAY / PAUSE / RESUME button -->
-                <button id="main-play-btn" onclick="togglePlayPause()" class="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-2xl flex items-center justify-center gap-2 font-black text-lg transition-all shadow-emerald-500/10 shadow-xl active:scale-95">
-                    <svg id="play-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <button id="main-play-btn" onclick="togglePlayPause()" class="px-6 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-2xl flex items-center justify-center gap-2 font-black text-sm sm:text-base transition-all shadow-emerald-500/10 shadow-xl active:scale-95">
+                    <svg id="play-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z" />
                     </svg>
                     <span id="play-text">開始訓練</span>
                 </button>
 
                 <!-- Next Step button -->
-                <button onclick="nextStep()" class="px-6 py-4 bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800/80 rounded-2xl flex items-center justify-center gap-2 font-bold transition-all shadow-lg active:scale-95">
+                <button onclick="nextStep()" class="px-5 py-3.5 bg-slate-950 border border-slate-900 text-slate-300 hover:text-white hover:bg-slate-900/80 rounded-2xl flex items-center justify-center gap-2 font-bold transition-all shadow-md active:scale-95 text-xs sm:text-sm">
                     <span id="ui-skip-btn">跳過動作</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
                     </svg>
                 </button>
             </div>
 
             <!-- PROGRESS LIST BAR -->
-            <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-4">
+            <div class="bg-slate-905 border border-slate-900 rounded-2xl p-4">
                 <div class="flex justify-between text-xs text-slate-500 mb-2 font-semibold">
                     <span id="ui-timeline-prog">當前進度</span>
                     <span id="timeline-progress">1 / -- 步</span>
                 </div>
-                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden flex" id="overall-progress-bar">
+                <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden flex" id="overall-progress-bar">
                     <!-- Dynamic bar indicators will render inside JS -->
                 </div>
             </div>
@@ -245,16 +275,16 @@
     </main>
 
     <!-- FLOATING PLAYLIST PANEL -->
-    <footer class="bg-slate-900/60 border-t border-slate-800 py-3 px-6 z-20">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-slate-500 text-center sm:text-left">
+    <footer class="bg-slate-950 border-t border-slate-900/60 py-3.5 px-6 z-20">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-[10px] sm:text-xs text-slate-500 text-center sm:text-left">
             <div id="ui-footer-text">
                 &copy; 2026 瀨戶內海單車作戰備忘錄 · 核心肌肉，是您攻克島波海道最牢靠的「避震器」！
             </div>
-            <button id="ui-reset-btn" onclick="resetWorkout()" class="text-slate-400 hover:text-rose-400 font-bold flex items-center gap-1 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button id="ui-reset-btn" onclick="resetWorkout()" class="text-slate-500 hover:text-rose-400 font-bold flex items-center gap-1 transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 15H19" />
                 </svg>
-                重設計時器
+                <span id="ui-reset-lbl"> 重設計時器</span>
             </button>
         </div>
     </footer>
@@ -345,8 +375,16 @@
             }
         ];
 
+        // Self-initialize custom states to prevent undef crashes
+        workoutsModel.forEach(item => {
+            item.duration = item.baseDuration;
+            item.userCustomized = false;
+            item.enabled = true;
+        });
+
         // 2. Bilingual i18n Translation Dictionary
         let currentLang = 'zh'; // Default Cantonese
+        let currentTab = 'settings'; // Default config panel tab
 
         const i18nDict = {
             zh: {
@@ -354,21 +392,22 @@
                 badgeCore: "核心強化",
                 subtitle: "專為單車手設計的 30 分鐘每晚高強度循環訓練",
                 langBtn: "English",
-                ttsLabel: "語音播報: ON",
-                ttsLabelOff: "語音播報: OFF",
-                bgmLabel: "背景音樂: ON",
-                bgmLabelOff: "背景音樂: OFF",
-                bgmVol: "BGM音量",
-                configTitle: "訓練參數設定",
+                ttsLabel: "語音: ON",
+                ttsLabelOff: "語音: OFF",
+                bgmLabel: "音樂: ON",
+                bgmLabelOff: "音樂: OFF",
+                bgmVol: "BGM 音量",
+                configTitle: "⚙️ 訓練自訂參數 / Settings",
                 warmupTitle: "動態熱身 (Warm-up)",
-                warmupDesc: "5 分鐘，激活核心",
+                warmupDesc: "5 分鐘，激活核心與全身關節",
                 cooldownTitle: "拉筋伸展 (Cool-down)",
-                cooldownDesc: "5 分鐘，針對性放鬆",
-                workTime: "動作執行時間 (工作)",
+                cooldownDesc: "5 分鐘，針對性放鬆肌肉",
+                workTime: "動作預設執行時間",
                 restTime: "動作間休息時間 (休息)",
                 setRestTime: "組與組休息時間 (組間休息)",
+                setCountLbl: "總訓練組數 (Sets)",
                 estTotalLabel: "預估訓練總長度",
-                estTotalSub: "包含熱身及組間大休息",
+                estTotalSub: "包含熱身、放鬆及組間大休息",
                 startBtn: "開始訓練",
                 pauseBtn: "暫停計時",
                 resumeBtn: "繼續計時",
@@ -377,6 +416,8 @@
                 timelineProg: "當前進度",
                 footerText: "© 2026 瀨戶內海單車作戰備忘錄 · 核心肌肉，是您攻克島波海道最牢靠的「避震器」！",
                 resetBtn: " 重設計時器",
+                customiseBtn: "自訂設定",
+                closeBtn: "完成",
                 // Badges/Status
                 setBadgeWait: "組數: 等待開始",
                 setBadgeWarm: "熱身階段",
@@ -401,6 +442,11 @@
                 finishTitle: "👑 凱旋尾道！",
                 finishSub: "核心大功告成！",
                 finishTip: "恭喜你！核心已成功充能。今晚的努力，就是你 2026 島波海道遠征最穩健的保障。休息去浸溫泉啦！",
+                // Custom Exercises List texts
+                exListDurationLbl: "時間：",
+                exListEnabledLbl: "開啟：",
+                tabSettings: "⚙️ 設定 / Parameters",
+                tabExercises: "🏃 動作 / Exercises",
                 // TTS Speech Audio Cues
                 ttsNextUp: (name) => `下一動，${name}。請準備。`,
                 ttsRest: (next) => `休息時間。下一個動作，是${next}。`,
@@ -415,19 +461,20 @@
                 badgeCore: "Core Strength",
                 subtitle: "A nightly 30-minute high-intensity circuit custom designed for cyclists",
                 langBtn: "繁體中文",
-                ttsLabel: "Voice Guide: ON",
-                ttsLabelOff: "Voice Guide: OFF",
-                bgmLabel: "BGM Synth: ON",
-                bgmLabelOff: "BGM Synth: OFF",
+                ttsLabel: "Voice: ON",
+                ttsLabelOff: "Voice: OFF",
+                bgmLabel: "Music: ON",
+                bgmLabelOff: "Music: OFF",
                 bgmVol: "BGM Vol",
-                configTitle: "Workout Configuration",
+                configTitle: "⚙️ Workout Settings / 自訂參數",
                 warmupTitle: "Dynamic Warm-up",
-                warmupDesc: "5 mins to activate major core groups",
+                warmupDesc: "5 mins to activate joints & full body",
                 cooldownTitle: "Cool-down & Stretch",
                 cooldownDesc: "5 mins of target posture relief",
-                workTime: "Exercise Interval (Work)",
-                restTime: "Inter-exercise Interval (Rest)",
-                setRestTime: "Inter-set Rest Interval",
+                workTime: "Default Duration",
+                restTime: "Interval Rest (Rest)",
+                setRestTime: "Inter-set Break Duration",
+                setCountLbl: "Total Sets",
                 estTotalLabel: "Est. Total Duration",
                 estTotalSub: "Includes warm-ups, cool-downs, and major rests",
                 startBtn: "Start Workout",
@@ -438,6 +485,8 @@
                 timelineProg: "Current Progress",
                 footerText: "© 2026 Setouchi Cycling Expedition. Strong core is your bike's ultimate shock absorber!",
                 resetBtn: " Reset Timer",
+                customiseBtn: "Customise",
+                closeBtn: "Done",
                 // Badges/Status
                 setBadgeWait: "Set: Waiting",
                 setBadgeWarm: "Warm-up Phase",
@@ -462,6 +511,11 @@
                 finishTitle: "👑 Onomichi Triumph!",
                 finishSub: "Core Mission Accomplished!",
                 finishTip: "Congratulations! Your core is now armed. Tonight's grit is your insurance policy for the 2026 Shimanami Kaido climbs. Time for an Onsen!",
+                // Custom Exercises List texts
+                exListDurationLbl: "Duration: ",
+                exListEnabledLbl: "Enable: ",
+                tabSettings: "⚙️ Parameters",
+                tabExercises: "🏃 Exercises",
                 // TTS Speech Audio Cues
                 ttsNextUp: (name) => `Next up: ${name}. Get ready.`,
                 ttsRest: (next) => `Rest time. Next up is ${next}.`,
@@ -472,6 +526,145 @@
                 ttsLangChange: "Voice guide switched to English"
             }
         };
+
+        // --- TAB SWITCHING SYSTEM ---
+        function switchTab(tab) {
+            currentTab = tab;
+            const settingsBtn = document.getElementById('tab-settings-btn');
+            const exercisesBtn = document.getElementById('tab-exercises-btn');
+            const settingsContent = document.getElementById('tab-settings-content');
+            const exercisesContent = document.getElementById('tab-exercises-content');
+
+            if (tab === 'settings') {
+                if (settingsBtn) settingsBtn.className = "flex-1 pb-2 text-center text-xs sm:text-sm font-bold border-b-2 border-emerald-500 text-emerald-400 transition-all";
+                if (exercisesBtn) exercisesBtn.className = "flex-1 pb-2 text-center text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-400 transition-all";
+                if (settingsContent) settingsContent.classList.remove('hidden');
+                if (exercisesContent) exercisesContent.classList.add('hidden');
+            } else {
+                if (settingsBtn) settingsBtn.className = "flex-1 pb-2 text-center text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-400 transition-all";
+                if (exercisesBtn) exercisesBtn.className = "flex-1 pb-2 text-center text-xs sm:text-sm font-bold border-b-2 border-emerald-500 text-emerald-400 transition-all";
+                if (settingsContent) settingsContent.classList.add('hidden');
+                if (exercisesContent) exercisesContent.classList.remove('hidden');
+                renderExerciseConfigList(); // Refresh list config inside panel
+            }
+        }
+
+        // Drawer Overlay Toggles
+        function openSettings() {
+            const drawer = document.getElementById('settings-drawer');
+            const overlay = document.getElementById('settings-overlay');
+            if (drawer && overlay) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.remove('opacity-0');
+                    drawer.classList.remove('translate-x-full');
+                }, 10);
+            }
+        }
+
+        function closeSettings() {
+            const drawer = document.getElementById('settings-drawer');
+            const overlay = document.getElementById('settings-overlay');
+            if (drawer && overlay) {
+                overlay.classList.add('opacity-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // Render the customized workouts checklist dynamically inside left panel tab 2
+        function renderExerciseConfigList() {
+            const container = document.getElementById('tab-exercises-content');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            workoutsModel.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = "p-3 bg-slate-800/40 rounded-xl border border-slate-850 flex flex-col gap-2 transition-all hover:bg-slate-850/60";
+
+                // Top part: name & enable toggle
+                const top = document.createElement('div');
+                top.className = "flex items-center justify-between";
+
+                const label = document.createElement('span');
+                label.className = "text-xs font-bold text-slate-200 truncate pr-2";
+                label.innerText = item.name[currentLang];
+
+                const toggleLabel = document.createElement('label');
+                toggleLabel.className = "relative inline-flex items-center cursor-pointer";
+
+                const checkbox = document.createElement('input');
+                checkbox.type = "checkbox";
+                checkbox.className = "sr-only peer";
+                checkbox.checked = item.enabled !== false;
+                checkbox.onchange = (e) => {
+                    item.enabled = e.target.checked;
+                    updateSettingsLabels();
+                };
+
+                const toggleBg = document.createElement('div');
+                toggleBg.className = "w-8 h-4.5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-emerald-500";
+
+                toggleLabel.appendChild(checkbox);
+                toggleLabel.appendChild(toggleBg);
+                top.appendChild(label);
+                top.appendChild(toggleLabel);
+
+                // Bottom part: individual custom duration changer
+                const bottom = document.createElement('div');
+                bottom.className = "flex items-center justify-between pt-1.5 border-t border-slate-800/40";
+
+                const durText = document.createElement('span');
+                durText.className = "text-[10px] text-slate-500 uppercase font-black";
+                durText.innerText = i18nDict[currentLang].exListDurationLbl;
+
+                const adjuster = document.createElement('div');
+                adjuster.className = "flex items-center gap-1.5";
+
+                const minusBtn = document.createElement('button');
+                minusBtn.innerText = "−";
+                minusBtn.className = "w-5 h-5 rounded bg-slate-850 hover:bg-slate-800 active:scale-95 text-slate-300 font-extrabold flex items-center justify-center text-xs transition-colors";
+                minusBtn.onclick = () => {
+                    let cur = item.duration;
+                    if (cur > 10) {
+                        item.duration = cur - 5;
+                        item.userCustomized = true;
+                        durValSpan.innerText = `${item.duration}s`;
+                        updateSettingsLabels();
+                    }
+                };
+
+                const durValSpan = document.createElement('span');
+                durValSpan.className = "text-xs font-black text-emerald-400 w-8 text-center tabular-nums";
+                durValSpan.innerText = `${item.duration}s`;
+
+                const plusBtn = document.createElement('button');
+                plusBtn.innerText = "+";
+                plusBtn.className = "w-5 h-5 rounded bg-slate-850 hover:bg-slate-800 active:scale-95 text-slate-300 font-extrabold flex items-center justify-center text-xs transition-colors";
+                plusBtn.onclick = () => {
+                    let cur = item.duration;
+                    if (cur < 300) {
+                        item.duration = cur + 5;
+                        item.userCustomized = true;
+                        durValSpan.innerText = `${item.duration}s`;
+                        updateSettingsLabels();
+                    }
+                };
+
+                adjuster.appendChild(minusBtn);
+                adjuster.appendChild(durValSpan);
+                adjuster.appendChild(plusBtn);
+
+                bottom.appendChild(durText);
+                bottom.appendChild(adjuster);
+
+                card.appendChild(top);
+                card.appendChild(bottom);
+                container.appendChild(card);
+            });
+        }
 
         // --- LANGUAGE SWITCHING MECHANISM ---
         function toggleLanguage() {
@@ -493,33 +686,52 @@
             speakSentence(i18nDict[currentLang].ttsLangChange);
         }
 
+        // Safe DOM Text Helper to guarantee no null property writing exceptions
+        function setElText(id, text, isHTML = false) {
+            const el = document.getElementById(id);
+            if (el) {
+                if (isHTML) el.innerHTML = text;
+                else el.innerText = text;
+            }
+        }
+
         function applyTranslations() {
             const t = i18nDict[currentLang];
-            document.getElementById('ui-header-title').innerText = t.title;
-            document.getElementById('ui-badge-core').innerText = t.badgeCore;
-            document.getElementById('ui-header-subtitle').innerText = t.subtitle;
-            document.getElementById('lang-btn').innerText = `🌐 ${t.langBtn}`;
-            document.getElementById('ui-config-title').innerText = t.configTitle;
-            document.getElementById('ui-warmup-title').innerText = t.warmupTitle;
-            document.getElementById('ui-warmup-desc').innerText = t.warmupDesc;
-            document.getElementById('ui-cooldown-title').innerText = t.cooldownTitle;
-            document.getElementById('ui-cooldown-desc').innerText = t.cooldownDesc;
-            document.getElementById('ui-work-lbl').innerText = t.workTime;
-            document.getElementById('ui-rest-lbl').innerText = t.restTime;
-            document.getElementById('ui-setrest-lbl').innerText = t.setRestTime;
-            document.getElementById('ui-est-label').innerText = t.estTotalLabel;
-            document.getElementById('ui-est-sub').innerText = t.estTotalSub;
-            document.getElementById('ui-timeline-prog').innerText = t.timelineProg;
-            document.getElementById('ui-footer-text').innerHTML = t.footerText;
-            document.getElementById('ui-prev-btn').innerText = t.prevBtn;
-            document.getElementById('ui-skip-btn').innerText = t.skipBtn;
-            document.getElementById('ui-vol-lbl').innerText = t.bgmVol;
+            setElText('ui-header-title', t.title);
+            setElText('ui-badge-core', t.badgeCore);
+            setElText('ui-header-subtitle', t.subtitle);
+            setElText('lang-btn', `🌐 ${t.langBtn}`);
+            setElText('ui-config-title', t.configTitle); 
+            setElText('ui-warmup-title', t.warmupTitle);
+            setElText('ui-warmup-desc', t.warmupDesc);
+            setElText('ui-cooldown-title', t.cooldownTitle);
+            setElText('ui-cooldown-desc', t.cooldownDesc);
+            setElText('ui-work-lbl', t.workTime);
+            setElText('ui-rest-lbl', t.restTime);
+            setElText('ui-setrest-lbl', t.setRestTime);
+            setElText('ui-setcount-lbl', t.setCountLbl);
+            setElText('ui-est-label', t.estTotalLabel);
+            setElText('ui-est-sub', t.estTotalSub);
+            setElText('ui-timeline-prog', t.timelineProg);
+            setElText('ui-footer-text', t.footerText, true);
+            setElText('ui-prev-btn', t.prevBtn);
+            setElText('ui-skip-btn', t.skipBtn);
+            setElText('ui-vol-lbl', t.bgmVol);
+            setElText('ui-reset-lbl', t.resetBtn);
+            setElText('ui-customise-btn-txt', (currentLang === 'zh') ? '自訂訓練設定' : 'Customise Settings');
+            setElText('ui-close-btn-txt', t.closeBtn);
+
+            const tabSettingsBtn = document.getElementById('tab-settings-btn');
+            if (tabSettingsBtn) tabSettingsBtn.innerText = (currentLang === 'zh') ? '⚙️ 設定 Parameters' : '⚙️ Parameters';
+            const tabExercisesBtn = document.getElementById('tab-exercises-btn');
+            if (tabExercisesBtn) tabExercisesBtn.innerText = (currentLang === 'zh') ? '🏃 動作 Exercises' : '🏃 Exercises';
 
             // Trigger labels re-rendering - ORDER MATTERS!
             updateSettingsLabels();      // 1. Rebuilds queue and estimated totals first
             updatePlayPauseButtonLabel(); // 2. Safe now as workoutQueue is initialized
             updateSpeechButtonLabel();
             updateBGMButtonLabel();
+            renderExerciseConfigList();  // 3. Keep list config translated in real-time
         }
 
         // Web Audio Context & Node Chains initialization
@@ -533,7 +745,6 @@
 
         const bgmGain = audioCtx.createGain();
         bgmGain.connect(masterGain);
-        // Default BGM volume starts at 40%
         let currentBGMVolumeRatio = 0.4;
         bgmGain.gain.value = currentBGMVolumeRatio;
 
@@ -551,7 +762,6 @@
                 gain.connect(sfxGain);
 
                 osc.type = "sine";
-                // Fast pitch sweep
                 osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
 
@@ -568,8 +778,6 @@
         function playChimeDing() {
             try {
                 if (audioCtx.state === 'suspended') audioCtx.resume();
-                
-                // Frequency pair to create a perfect harmonious bell chime
                 const freqs = [880, 1100]; 
                 freqs.forEach(f => {
                     const osc = audioCtx.createOscillator();
@@ -598,7 +806,7 @@
         let currentBGMStep = 0;
         let nextBGMStepTime = 0.0;
         const BGM_BPM = 120;
-        const stepDuration = 60 / BGM_BPM / 4; // 16th Notes
+        const stepDuration = 60 / BGM_BPM / 4; 
 
         function playSynthKick(time) {
             const osc = audioCtx.createOscillator();
@@ -617,7 +825,7 @@
         }
 
         function playSynthHiHat(time) {
-            const bufferSize = audioCtx.sampleRate * 0.05; // 50ms
+            const bufferSize = audioCtx.sampleRate * 0.05; 
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const data = buffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) {
@@ -709,16 +917,18 @@
             }
         }
 
-        // Keep BGM Labels consistent
         function updateBGMButtonLabel() {
             const bgmBtn = document.getElementById('bgm-btn');
+            const lbl = document.getElementById('ui-bgm-lbl');
             const t = i18nDict[currentLang];
+            if (!bgmBtn || !lbl) return;
+
             if (isBGMEnabled) {
-                bgmBtn.innerText = t.bgmLabel;
-                bgmBtn.className = "px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-emerald-500/10 shadow-lg";
+                lbl.innerText = t.bgmLabel;
+                bgmBtn.className = "p-1 px-2 rounded-md bg-emerald-500/10 text-emerald-400 font-semibold transition-all";
             } else {
-                bgmBtn.innerText = t.bgmLabelOff;
-                bgmBtn.className = "px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 text-xs font-semibold flex items-center gap-1.5 transition-all";
+                lbl.innerText = t.bgmLabelOff;
+                bgmBtn.className = "p-1 px-2 rounded-md bg-slate-700 text-slate-300 font-semibold transition-all";
             }
         }
 
@@ -730,6 +940,7 @@
             seqIntervalId = setInterval(bgmSequenceScheduler, 25);
         }
 
+        // De-activates Procedural sequencer clock
         function stopSynthBGM() {
             if (!isBGMPlaying) return;
             isBGMPlaying = false;
@@ -744,6 +955,55 @@
 
         // --- 3. SPEECH SYNTHESIS DUAL LANGUAGE WITH AUTO AUDIO DUCKING ---
         let isSpeechEnabled = true;
+        let speechVoices = [];
+
+        function loadVoices() {
+            if (typeof window !== 'undefined' && window.speechSynthesis) {
+                speechVoices = window.speechSynthesis.getVoices();
+            }
+        }
+
+        if (typeof window !== 'undefined' && window.speechSynthesis) {
+            loadVoices();
+            if (window.speechSynthesis.onvoiceschanged !== undefined) {
+                window.speechSynthesis.onvoiceschanged = loadVoices;
+            }
+        }
+
+        function getBestVoiceForLanguage(langCode) {
+            if (speechVoices.length === 0) {
+                loadVoices();
+            }
+
+            const target = langCode.toLowerCase().replace('_', '-');
+            let matchedVoices = speechVoices.filter(v => v.lang.toLowerCase().replace('_', '-').includes(target));
+
+            if (matchedVoices.length === 0) {
+                const mainLang = target.split('-')[0];
+                matchedVoices = speechVoices.filter(v => v.lang.toLowerCase().replace('_', '-').startsWith(mainLang));
+            }
+
+            if (matchedVoices.length === 0) return null;
+
+            if (target.startsWith('en')) {
+                const enPremiumKeywords = ['google', 'natural', 'samantha', 'zira', 'david', 'hazel', 'susan', 'premium', 'microsoft'];
+                for (const keyword of enPremiumKeywords) {
+                    const found = matchedVoices.find(v => v.name.toLowerCase().includes(keyword));
+                    if (found) return found;
+                }
+            } else if (target.startsWith('zh')) {
+                const zhPremiumKeywords = ['sin-ji', 'hiu-ga', 'google', 'apple', 'microsoft', 'cantonese', 'hong kong', 'chinese'];
+                for (const keyword of zhPremiumKeywords) {
+                    const found = matchedVoices.find(v => v.name.toLowerCase().includes(keyword));
+                    if (found) return found;
+                }
+            }
+
+            const localServiceVoice = matchedVoices.find(v => v.localService);
+            if (localServiceVoice) return localServiceVoice;
+
+            return matchedVoices[0];
+        }
 
         function toggleSpeech() {
             isSpeechEnabled = !isSpeechEnabled;
@@ -757,17 +1017,16 @@
 
         function updateSpeechButtonLabel() {
             const speechBtn = document.getElementById('speech-btn');
-            const speechIcon = document.getElementById('speech-icon');
+            const lbl = document.getElementById('ui-speech-lbl');
             const t = i18nDict[currentLang];
+            if (!speechBtn || !lbl) return;
 
             if (isSpeechEnabled) {
-                speechBtn.innerText = t.ttsLabel;
-                speechBtn.className = "px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 text-xs font-semibold flex items-center gap-1.5 transition-all";
-                speechIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />`;
+                lbl.innerText = t.ttsLabel;
+                speechBtn.className = "p-1 px-2 rounded-md bg-emerald-500/10 text-emerald-400 font-semibold transition-all";
             } else {
-                speechBtn.innerText = t.ttsLabelOff;
-                speechBtn.className = "px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 text-xs font-semibold flex items-center gap-1.5 transition-all";
-                speechIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />`;
+                lbl.innerText = t.ttsLabelOff;
+                speechBtn.className = "p-1 px-2 rounded-md bg-slate-700 text-slate-300 font-semibold transition-all";
             }
         }
 
@@ -776,8 +1035,16 @@
             window.speechSynthesis.cancel();
             
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = (currentLang === 'en') ? "en-US" : "zh-HK"; 
-            utterance.rate = 1.0;
+            const targetLang = (currentLang === 'en') ? "en-US" : "zh-HK";
+            utterance.lang = targetLang;
+
+            utterance.rate = (currentLang === 'en') ? 0.93 : 1.0; 
+            utterance.pitch = 1.0; 
+
+            const naturalVoice = getBestVoiceForLanguage(targetLang);
+            if (naturalVoice) {
+                utterance.voice = naturalVoice;
+            }
 
             // Intelligent Audio Ducking Integration
             utterance.onstart = function() {
@@ -805,54 +1072,71 @@
         let isTimerRunning = false;
         let intervalId = null;
 
-        // On Load Configuration Initialize (Apply fix here)
+        // On Load Configuration Initialize
         window.onload = function() {
             applyTranslations();
-            resetWorkout(); // Loads display & progress bars correctly on page open
+            resetWorkout(); 
+            loadVoices();   
         }
 
         function updateSettingsLabels() {
-            const work = document.getElementById('work-duration').value;
-            const rest = document.getElementById('rest-duration').value;
-            const setRest = document.getElementById('set-rest-duration').value;
+            const work = parseInt(document.getElementById('work-duration').value);
+            const rest = parseInt(document.getElementById('rest-duration').value);
+            const setRest = parseInt(document.getElementById('set-rest-duration').value);
+            const sets = parseInt(document.getElementById('set-count').value);
 
-            document.getElementById('work-time-label').innerText = `${work} ${currentLang === 'en' ? 'secs' : '秒'}`;
-            document.getElementById('rest-time-label').innerText = `${rest} ${currentLang === 'en' ? 'secs' : '秒'}`;
-            document.getElementById('set-rest-label').innerText = `${setRest} ${currentLang === 'en' ? 'secs' : '秒'}`;
+            // Synchronise individual exercise durations to global work slider UNLESS customized
+            workoutsModel.forEach(item => {
+                if (!item.userCustomized) {
+                    item.duration = (item.id.includes('sideplank')) ? Math.min(30, work) : work;
+                }
+            });
+
+            setElText('work-time-label', `${work} ${currentLang === 'en' ? 'secs' : '秒'}`);
+            setElText('rest-time-label', `${rest} ${currentLang === 'en' ? 'secs' : '秒'}`);
+            setElText('set-rest-label', `${setRest} ${currentLang === 'en' ? 'secs' : '秒'}`);
+            setElText('set-count-label', `${sets} ${currentLang === 'en' ? 'Sets' : '組'}`);
 
             calculateEstimatedTotal();
             if (!isTimerRunning) {
                 rebuildQueue();
             }
+
+            // Sync visual cards if tab is open
+            if (currentTab === 'exercises') {
+                renderExerciseConfigList();
+            }
         }
 
         function calculateEstimatedTotal() {
-            const isWarmup = document.getElementById('toggle-warmup').checked;
-            const isCooldown = document.getElementById('toggle-cooldown').checked;
-            const work = parseInt(document.getElementById('work-duration').value);
-            const rest = parseInt(document.getElementById('rest-duration').value);
-            const setRest = parseInt(document.getElementById('set-rest-duration').value);
+            const isWarmup = document.getElementById('toggle-warmup') ? document.getElementById('toggle-warmup').checked : true;
+            const isCooldown = document.getElementById('toggle-cooldown') ? document.getElementById('toggle-cooldown').checked : true;
+            const rest = document.getElementById('rest-duration') ? parseInt(document.getElementById('rest-duration').value) : 30;
+            const setRest = document.getElementById('set-rest-duration') ? parseInt(document.getElementById('set-rest-duration').value) : 90;
+            const sets = document.getElementById('set-count') ? parseInt(document.getElementById('set-count').value) : 3;
 
             let totalSecs = 0;
-            if (isWarmup) totalSecs += 300; // 5 mins Warm-up
+            if (isWarmup) totalSecs += 300; 
 
-            // 3 Sets
-            for (let s = 1; s <= 3; s++) {
-                workoutsModel.forEach((item, idx) => {
-                    let activeTime = (item.id.includes('sideplank')) ? 30 : work;
-                    totalSecs += activeTime;
+            const activeExercises = workoutsModel.filter(item => item.enabled !== false);
 
-                    if (idx < workoutsModel.length - 1) {
-                        totalSecs += rest;
+            if (activeExercises.length > 0) {
+                for (let s = 1; s <= sets; s++) {
+                    activeExercises.forEach((item, idx) => {
+                        totalSecs += item.duration;
+
+                        if (idx < activeExercises.length - 1) {
+                            totalSecs += rest;
+                        }
+                    });
+
+                    if (s < sets) {
+                        totalSecs += setRest;
                     }
-                });
-
-                if (s < 3) {
-                    totalSecs += setRest;
                 }
             }
 
-            if (isCooldown) totalSecs += 300; // 5 mins Cool-down
+            if (isCooldown) totalSecs += 300; 
 
             const mins = Math.floor(totalSecs / 60);
             const secs = totalSecs % 60;
@@ -861,18 +1145,17 @@
                 ? `~${mins} min ${secs.toString().padStart(2, '0')} sec` 
                 : `~${mins} 分 ${secs.toString().padStart(2, '0')} 秒`;
             
-            document.getElementById('total-estimate').innerText = formatStr;
+            setElText('total-estimate', formatStr);
             totalWorkoutDuration = totalSecs;
         }
 
-        // Assemble the linear workout queue
         function rebuildQueue() {
             workoutQueue = [];
-            const isWarmup = document.getElementById('toggle-warmup').checked;
-            const isCooldown = document.getElementById('toggle-cooldown').checked;
-            const work = parseInt(document.getElementById('work-duration').value);
-            const rest = parseInt(document.getElementById('rest-duration').value);
-            const setRest = parseInt(document.getElementById('set-rest-duration').value);
+            const isWarmup = document.getElementById('toggle-warmup') ? document.getElementById('toggle-warmup').checked : true;
+            const isCooldown = document.getElementById('toggle-cooldown') ? document.getElementById('toggle-cooldown').checked : true;
+            const rest = document.getElementById('rest-duration') ? parseInt(document.getElementById('rest-duration').value) : 30;
+            const setRest = document.getElementById('set-rest-duration') ? parseInt(document.getElementById('set-rest-duration').value) : 90;
+            const sets = document.getElementById('set-count') ? parseInt(document.getElementById('set-count').value) : 3;
             const t = i18nDict[currentLang];
 
             if (isWarmup) {
@@ -886,41 +1169,46 @@
                 });
             }
 
-            for (let s = 1; s <= 3; s++) {
-                workoutsModel.forEach((item, idx) => {
-                    let activeTime = (item.id.includes('sideplank')) ? 30 : work;
-                    workoutQueue.push({
-                        name: item.name[currentLang],
-                        subtitle: currentLang === 'zh' ? `動作進行中 (${idx + 1} / 8)` : `Active Exercise (${idx + 1} / 8)`,
-                        duration: activeTime,
-                        type: "work",
-                        set: t.setBadgeSet(s),
-                        tip: item.tip[currentLang]
-                    });
+            const enabledWorkouts = workoutsModel.filter(item => item.enabled !== false);
 
-                    const isLastOfSet = idx === workoutsModel.length - 1;
-                    if (!isLastOfSet) {
+            if (enabledWorkouts.length > 0) {
+                for (let s = 1; s <= sets; s++) {
+                    enabledWorkouts.forEach((item, idx) => {
                         workoutQueue.push({
-                            name: t.exRestTitle,
-                            subtitle: t.exRestSub(workoutsModel[idx + 1].name[currentLang]),
-                            duration: rest,
-                            type: "rest",
+                            name: item.name[currentLang],
+                            subtitle: currentLang === 'zh' 
+                                ? `動作進行中 (${idx + 1} / ${enabledWorkouts.length})` 
+                                : `Active Exercise (${idx + 1} / ${enabledWorkouts.length})`,
+                            duration: item.duration,
+                            type: "work",
                             set: t.setBadgeSet(s),
-                            tip: t.exRestTip,
-                            nextUp: workoutsModel[idx + 1].name[currentLang]
+                            tip: item.tip[currentLang]
                         });
-                    } else if (s < 3) {
-                        workoutQueue.push({
-                            name: t.exSetRestTitle,
-                            subtitle: t.exSetRestSub(s),
-                            duration: setRest,
-                            type: "setrest",
-                            set: t.setBadgeRest,
-                            tip: t.exSetRestTip,
-                            nextUp: `Set ${s+1} - ${workoutsModel[0].name[currentLang]}`
-                        });
-                    }
-                });
+
+                        const isLastOfSet = idx === enabledWorkouts.length - 1;
+                        if (!isLastOfSet) {
+                            workoutQueue.push({
+                                name: t.exRestTitle,
+                                subtitle: t.exRestSub(enabledWorkouts[idx + 1].name[currentLang]),
+                                duration: rest,
+                                type: "rest",
+                                set: t.setBadgeSet(s),
+                                tip: t.exRestTip,
+                                nextUp: enabledWorkouts[idx + 1].name[currentLang]
+                            });
+                        } else if (s < sets) {
+                            workoutQueue.push({
+                                name: t.exSetRestTitle,
+                                subtitle: t.exSetRestSub(s),
+                                duration: setRest,
+                                type: "setrest",
+                                set: t.setBadgeRest,
+                                tip: t.exSetRestTip,
+                                nextUp: `Set ${s+1} - ${enabledWorkouts[0].name[currentLang]}`
+                            });
+                        }
+                    });
+                }
             }
 
             if (isCooldown) {
@@ -968,7 +1256,7 @@
             });
             
             const stepLbl = currentLang === 'en' ? 'Step' : '步';
-            document.getElementById('timeline-progress').innerText = `${currentStepIndex + 1} / ${workoutQueue.length} ${stepLbl}`;
+            setElText('timeline-progress', `${currentStepIndex + 1} / ${workoutQueue.length} ${stepLbl}`);
         }
 
         function togglePlayPause() {
@@ -984,17 +1272,19 @@
         }
 
         function startWorkout() {
-            document.getElementById('config-panel').classList.add('pointer-events-none', 'opacity-60');
+            const configPanel = document.getElementById('config-panel');
+            if (configPanel) configPanel.classList.add('pointer-events-none', 'opacity-60');
             isTimerRunning = true;
 
-            document.getElementById('play-icon').innerHTML = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
+            const playIcon = document.getElementById('play-icon');
+            if (playIcon) playIcon.innerHTML = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
             updatePlayPauseButtonLabel();
 
             if (isBGMEnabled) {
                 startSynthBGM();
             }
 
-            if (timerVal === workoutQueue[currentStepIndex].duration) {
+            if (workoutQueue.length > 0 && timerVal === workoutQueue[currentStepIndex].duration) {
                 announceActiveStep(workoutQueue[currentStepIndex]);
             }
 
@@ -1005,11 +1295,11 @@
             isTimerRunning = false;
             clearInterval(intervalId);
             stopSynthBGM();
-            document.getElementById('play-icon').innerHTML = `<path d="M8 5v14l11-7z" />`;
+            const playIcon = document.getElementById('play-icon');
+            if (playIcon) playIcon.innerHTML = `<path d="M8 5v14l11-7z" />`;
             updatePlayPauseButtonLabel();
         }
 
-        // Added defensive conditional array check to prevent initialization crashes
         function updatePlayPauseButtonLabel() {
             const playText = document.getElementById('play-text');
             if (!playText) return;
@@ -1027,7 +1317,8 @@
 
         function resetWorkout() {
             pauseWorkout();
-            document.getElementById('config-panel').classList.remove('pointer-events-none', 'opacity-60');
+            const configPanel = document.getElementById('config-panel');
+            if (configPanel) configPanel.classList.remove('pointer-events-none', 'opacity-60');
             currentStepIndex = 0;
             rebuildQueue();
             loadStep(0);
@@ -1043,7 +1334,6 @@
                     playClickSound();
                 }
             } else {
-                // Brass chime gong ding on complete!
                 playChimeDing();
                 nextStep();
             }
@@ -1055,29 +1345,35 @@
             const step = workoutQueue[index];
             timerVal = step.duration;
 
-            document.getElementById('current-title').innerText = step.name;
-            document.getElementById('current-subtitle').innerText = step.subtitle;
-            document.getElementById('pro-tip').innerText = step.tip;
-            document.getElementById('set-badge').innerText = step.set;
+            setElText('current-title', step.name);
+            setElText('current-subtitle', step.subtitle);
+            setElText('pro-tip', step.tip);
+            setElText('set-badge', step.set);
 
             const nextStepText = step.nextUp 
                 ? `${currentLang === 'en' ? 'Next' : '下一步'}: ${step.nextUp}` 
                 : (workoutQueue[index + 1] ? `${currentLang === 'en' ? 'Next' : '下一步'}: ${workoutQueue[index + 1].name}` : (currentLang === 'en' ? 'Finished!' : '已完成！'));
-            document.getElementById('next-up').innerText = nextStepText;
+            setElText('next-up', nextStepText);
 
             const bg = document.getElementById('timer-bg');
-            if (step.type === 'work') {
-                bg.className = "absolute inset-0 bg-radial-gradient from-emerald-500/10 to-transparent transition-all duration-700 pointer-events-none";
-                document.getElementById('timer-progress-bar').setAttribute('stroke', '#10b981');
-            } else if (step.type === 'rest') {
-                bg.className = "absolute inset-0 bg-radial-gradient from-amber-500/10 to-transparent transition-all duration-700 pointer-events-none";
-                document.getElementById('timer-progress-bar').setAttribute('stroke', '#f59e0b');
-            } else if (step.type === 'setrest') {
-                bg.className = "absolute inset-0 bg-radial-gradient from-blue-500/10 to-transparent transition-all duration-700 pointer-events-none";
-                document.getElementById('timer-progress-bar').setAttribute('stroke', '#3b82f6');
-            } else {
-                bg.className = "absolute inset-0 bg-radial-gradient from-teal-500/10 to-transparent transition-all duration-700 pointer-events-none";
-                document.getElementById('timer-progress-bar').setAttribute('stroke', '#14b8a6');
+            if (bg) {
+                if (step.type === 'work') {
+                    bg.className = "absolute inset-0 bg-radial-gradient from-emerald-500/10 to-transparent transition-all duration-700 pointer-events-none";
+                    const bar = document.getElementById('timer-progress-bar');
+                    if (bar) bar.setAttribute('stroke', '#10b981');
+                } else if (step.type === 'rest') {
+                    bg.className = "absolute inset-0 bg-radial-gradient from-amber-500/10 to-transparent transition-all duration-700 pointer-events-none";
+                    const bar = document.getElementById('timer-progress-bar');
+                    if (bar) bar.setAttribute('stroke', '#f59e0b');
+                } else if (step.type === 'setrest') {
+                    bg.className = "absolute inset-0 bg-radial-gradient from-blue-500/10 to-transparent transition-all duration-700 pointer-events-none";
+                    const bar = document.getElementById('timer-progress-bar');
+                    if (bar) bar.setAttribute('stroke', '#3b82f6');
+                } else {
+                    bg.className = "absolute inset-0 bg-radial-gradient from-teal-500/10 to-transparent transition-all duration-700 pointer-events-none";
+                    const bar = document.getElementById('timer-progress-bar');
+                    if (bar) bar.setAttribute('stroke', '#14b8a6');
+                }
             }
 
             updateClockDisplay();
@@ -1090,12 +1386,13 @@
             const mins = Math.floor(timerVal / 60);
             const secs = timerVal % 60;
             const formatStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            document.getElementById('big-timer').innerText = formatStr;
+            setElText('big-timer', formatStr);
 
             const activeStepTotal = workoutQueue[currentStepIndex].duration;
             const progressRatio = timerVal / activeStepTotal;
             const strokeOffset = 600 * progressRatio;
-            document.getElementById('timer-progress-bar').setAttribute('stroke-dashoffset', strokeOffset);
+            const bar = document.getElementById('timer-progress-bar');
+            if (bar) bar.setAttribute('stroke-dashoffset', strokeOffset);
         }
 
         function updateOverallWorkoutProgressPercent() {
@@ -1107,9 +1404,10 @@
             completedSecs += (workoutQueue[currentStepIndex].duration - timerVal);
 
             const percent = Math.min(100, Math.round((completedSecs / totalWorkoutDuration) * 100));
-            document.getElementById('global-progress-badge').innerText = `${i18nDict[currentLang].progressLabel}: ${percent}%`;
+            setElText('global-progress-badge', `${i18nDict[currentLang].progressLabel}: ${percent}%`);
         }
 
+        // Moves active queue state index backward by 1 unit
         function prevStep() {
             if (currentStepIndex > 0) {
                 currentStepIndex--;
@@ -1122,6 +1420,7 @@
             }
         }
 
+        // Moves active queue state index forward by 1 unit
         function nextStep() {
             if (currentStepIndex < workoutQueue.length - 1) {
                 currentStepIndex++;
@@ -1133,12 +1432,13 @@
                 pauseWorkout();
                 stopSynthBGM();
                 const t = i18nDict[currentLang];
-                document.getElementById('current-title').innerText = t.finishTitle;
-                document.getElementById('current-subtitle').innerText = t.finishSub;
-                document.getElementById('big-timer').innerText = "FINISH";
-                document.getElementById('pro-tip').innerText = t.finishTip;
+                setElText('current-title', t.finishTitle);
+                setElText('current-subtitle', t.finishSub);
+                setElText('big-timer', "FINISH");
+                setElText('pro-tip', t.finishTip);
                 speakSentence(t.ttsFinish);
-                document.getElementById('speech-btn').disabled = true;
+                const speechBtn = document.getElementById('speech-btn');
+                if (speechBtn) speechBtn.disabled = true;
             }
         }
 
