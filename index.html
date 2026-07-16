@@ -131,7 +131,7 @@
                         <span id="ui-work-lbl" class="text-slate-400 text-xs">動作預設執行時間</span>
                         <span id="work-time-label" class="text-emerald-400 font-bold text-xs">45 秒</span>
                     </div>
-                    <input type="range" id="work-duration" min="15" max="120" step="5" value="45" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                    <input type="range" id="work-duration" min="15" max="120" step="5" value="45" oninput="updateSettingsLabels()" class="w-full h-1.5 bg-slate-905 rounded-lg appearance-none cursor-pointer accent-emerald-500">
                 </div>
 
                 <!-- Rest Duration -->
@@ -156,7 +156,7 @@
                 <div class="flex items-center justify-between p-3 bg-slate-900/40 rounded-xl border border-slate-850">
                     <div>
                         <span id="ui-cooldown-title" class="text-xs font-semibold block text-slate-300">拉筋伸展 (Cool-down)</span>
-                        <span id="ui-cooldown-desc" class="text-[10px] text-slate-500">5 分鐘，針對性放鬆</span>
+                        <span id="ui-cooldown-desc" class="text-[10px] text-slate-505">5 分鐘，針對性放鬆</span>
                     </div>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="toggle-cooldown" onchange="updateSettingsLabels()" class="sr-only peer" checked>
@@ -193,7 +193,7 @@
         <section class="flex flex-col justify-between gap-6 w-full">
             
             <!-- MAIN DISPLAY -->
-            <div class="bg-slate-900/20 border border-slate-800/60 rounded-3xl p-6 sm:p-8 flex flex-col justify-center items-center text-center relative overflow-hidden h-[390px] shadow-2xl">
+            <div class="bg-slate-900/20 border border-slate-800/60 rounded-3xl p-6 sm:p-8 flex flex-col justify-center items-center text-center relative overflow-hidden h-[410px] shadow-2xl">
                 <!-- Outer Ring Glowing Background Effects based on status -->
                 <div id="timer-bg" class="absolute inset-0 bg-radial-gradient from-emerald-500/5 to-transparent transition-all duration-700 pointer-events-none"></div>
 
@@ -212,18 +212,23 @@
                 </p>
 
                 <!-- Giant Circular Progress Timer -->
-                <div class="relative w-32 h-36 sm:w-40 sm:h-40 mb-6 z-10">
-                    <svg class="w-full h-full transform -rotate-90">
+                <div class="relative w-44 h-44 sm:w-52 sm:h-52 mb-3 z-10 flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                         <!-- Background Circle -->
-                        <circle cx="50%" cy="50%" r="44%" stroke="#111827" stroke-width="8" fill="transparent" />
+                        <circle cx="50" cy="50" r="43" stroke="#111827" stroke-width="4.5" fill="transparent" />
                         <!-- Foreground Circle -->
-                        <circle id="timer-progress-bar" cx="50%" cy="50%" r="44%" stroke="#10b981" stroke-width="8" fill="transparent" stroke-dasharray="600" stroke-dashoffset="0" class="transition-all duration-200" />
+                        <circle id="timer-progress-bar" cx="50" cy="50" r="43" stroke="#10b981" stroke-width="4.5" fill="transparent" stroke-dasharray="270.17" stroke-dashoffset="0" class="transition-all duration-200" stroke-linecap="round" />
                     </svg>
                     <!-- Digits inside Circle -->
                     <div class="absolute inset-0 flex flex-col justify-center items-center">
                         <span id="big-timer" class="text-4xl sm:text-5xl font-black text-white tracking-tighter tabular-nums leading-none">00:00</span>
-                        <span id="next-up" class="text-[9px] sm:text-[10px] text-slate-400 mt-2 max-w-[110px] truncate">準備開始</span>
                     </div>
+                </div>
+
+                <!-- Next Up Info Badge (High contrast, spacious, extra large font for pads) -->
+                <div class="z-10 mb-5 bg-slate-950/80 border border-emerald-500/20 rounded-2xl px-6 py-2.5 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 w-fit max-w-[95%] mx-auto shadow-xl">
+                    <span id="ui-next-up-header" class="text-xs sm:text-sm font-extrabold tracking-widest text-slate-400 uppercase shrink-0">下一動作 / NEXT:</span>
+                    <span id="next-up" class="text-base sm:text-lg font-black text-emerald-400 truncate max-w-[220px] sm:max-w-[280px]">準備開始</span>
                 </div>
 
                 <!-- Cycling Live Pro-Tips Panel -->
@@ -234,29 +239,31 @@
                 </div>
             </div>
 
-            <!-- CONTROLLER BUTTONS (Perfect Equal Columns & Smaller Sleek Height & Accurate Usability sizing) -->
-            <div class="grid grid-cols-3 gap-3 w-full max-w-[420px] mx-auto">
-                <!-- Previous Step button -->
-                <button onclick="prevStep()" class="h-11 sm:h-12 bg-slate-950 border border-slate-900 text-slate-300 hover:text-white hover:bg-slate-900/80 rounded-xl flex items-center justify-center gap-1.5 font-bold transition-all shadow-md active:scale-95 text-xs w-full">
-                    <svg style="width: 16px; height: 16px;" class="shrink-0 text-slate-400 hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
+            <!-- CONTROLLER BUTTONS (Flexible, Proportional & Fully Shown text layout) -->
+            <div class="flex items-center justify-center gap-2.5 w-full max-w-[420px] mx-auto">
+                <!-- Previous Step button (Flex-1 for standard width) -->
+                <button onclick="prevStep()" class="h-11 sm:h-12 bg-slate-950 border border-slate-900 text-slate-300 hover:text-white hover:bg-slate-900/80 rounded-xl flex items-center justify-center gap-1.5 font-bold transition-all shadow-md active:scale-95 text-[11px] sm:text-xs flex-1 px-2 min-w-0">
+                    <svg width="14" height="14" class="shrink-0 text-slate-400 hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                        <polygon points="22 19 13 12 22 5 22 19"></polygon>
                     </svg>
-                    <span id="ui-prev-btn">上一個</span>
+                    <span id="ui-prev-btn" class="whitespace-nowrap">上一個</span>
                 </button>
 
-                <!-- PLAY / PAUSE / RESUME button -->
-                <button id="main-play-btn" onclick="togglePlayPause()" class="h-11 sm:h-12 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs sm:text-sm transition-all shadow-emerald-500/10 shadow-xl active:scale-95 w-full">
-                    <svg id="play-icon" style="width: 16px; height: 16px;" class="shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
+                <!-- PLAY / PAUSE / RESUME button (Flex-[1.35] to safely avoid text wrapping/truncation) -->
+                <button id="main-play-btn" onclick="togglePlayPause()" class="h-11 sm:h-12 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl flex items-center justify-center gap-1.5 font-black text-xs sm:text-sm transition-all shadow-emerald-500/10 shadow-xl active:scale-95 flex-[1.35] px-2.5 min-w-0">
+                    <svg id="play-icon" width="14" height="14" class="shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
                     </svg>
-                    <span id="play-text">開始訓練</span>
+                    <span id="play-text" class="whitespace-nowrap">開始訓練</span>
                 </button>
 
-                <!-- Next / Skip Step button -->
-                <button onclick="nextStep()" class="h-11 sm:h-12 bg-slate-950 border border-slate-900 text-slate-300 hover:text-white hover:bg-slate-900/80 rounded-xl flex items-center justify-center gap-1.5 font-bold transition-all shadow-md active:scale-95 text-xs w-full">
-                    <span id="ui-skip-btn">跳過</span>
-                    <svg style="width: 16px; height: 16px;" class="shrink-0 text-slate-400 hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
+                <!-- Next / Skip Step button (Flex-1 for standard width) -->
+                <button onclick="nextStep()" class="h-11 sm:h-12 bg-slate-950 border border-slate-900 text-slate-300 hover:text-white hover:bg-slate-900/80 rounded-xl flex items-center justify-center gap-1.5 font-bold transition-all shadow-md active:scale-95 text-[11px] sm:text-xs flex-1 px-2 min-w-0">
+                    <span id="ui-skip-btn" class="whitespace-nowrap">跳過</span>
+                    <svg width="14" height="14" class="shrink-0 text-slate-400 hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                        <polygon points="2 19 11 12 2 5 2 19"></polygon>
                     </svg>
                 </button>
             </div>
@@ -314,13 +321,23 @@
                 type: 'work' 
             },
             { 
-                id: 'birddog', 
-                name: { zh: 'Bird Dog 烏狗式', en: 'Bird Dog' }, 
+                id: 'birddog_l', 
+                name: { zh: '鳥狗式 (左手右腳)', en: 'Bird Dog (L-Arm/R-Leg)' }, 
                 tip: { 
-                    zh: '【攻克長坡良伴】前後平直延伸，維持 2 秒。保護下背，為 Day 2 境目峠預防痠痛！', 
-                    en: '[Climbing Spine Guard] Extend straight forward & backward, hold 2s. Protects your lower back, preventing pain on Day 2 slopes.' 
+                    zh: '【攻克長坡良伴】左手與右腳向前後平直延伸，維持 2 秒。保護下背，預防痠痛！', 
+                    en: '[Climbing Spine Guard] Extend Left Arm and Right Leg straight, hold for 2s. Protects your lower back!' 
                 }, 
-                baseDuration: 60, 
+                baseDuration: 30, 
+                type: 'work' 
+            },
+            { 
+                id: 'birddog_r', 
+                name: { zh: '鳥狗式 (右手左腳)', en: 'Bird Dog (R-Arm/L-Leg)' }, 
+                tip: { 
+                    zh: '【攻克長坡良伴】右手與左腳向前後平直延伸，維持 2 秒。保持腰部同骨盆水平！', 
+                    en: '[Climbing Spine Guard] Extend Right Arm and Left Leg straight, hold for 2s. Keep waist and pelvis level!' 
+                }, 
+                baseDuration: 30, 
                 type: 'work' 
             },
             { 
@@ -448,12 +465,11 @@
                 tabSettings: "⚙️ 設定 / Parameters",
                 tabExercises: "🏃 動作 / Exercises",
                 // TTS Speech Audio Cues
-                ttsNextUp: (name) => `下一動，${name}。請準備。`,
-                ttsRest: (next) => `休息時間。下一個動作，是${next}。`,
-                ttsSetRest: "太好了！完成本組訓練。大組間休息。",
-                ttsWarmup: "準備開始熱身，請放鬆呼吸。",
-                ttsCooldown: "恭喜完成核心主訓練，現在開始全身舒緩伸展。",
-                ttsFinish: "恭喜你！今晚嘅核心訓練已經完成，距離出發更近一步！",
+                ttsRest: (next) => `休息時間。下一動作：${next}`,
+                ttsSetRest: "好！完成本組。大組間休息。",
+                ttsWarmup: "準備熱身，請放鬆呼吸。",
+                ttsCooldown: "核心訓練完成，依家開始全身拉筋伸展。",
+                ttsFinish: "恭喜你！今晚嘅核心訓練完成，距離出發更近一步！",
                 ttsLangChange: "已切換至廣東話語音"
             },
             en: {
@@ -477,9 +493,9 @@
                 setCountLbl: "Total Sets",
                 estTotalLabel: "Est. Total Duration",
                 estTotalSub: "Includes warm-ups, cool-downs, and major rests",
-                startBtn: "Start Workout",
-                pauseBtn: "Pause Timer",
-                resumeBtn: "Resume Timer",
+                startBtn: "Start",
+                pauseBtn: "Pause",
+                resumeBtn: "Resume",
                 prevBtn: "Prev",
                 skipBtn: "Skip",
                 timelineProg: "Current Progress",
@@ -517,12 +533,11 @@
                 tabSettings: "⚙️ Parameters",
                 tabExercises: "🏃 Exercises",
                 // TTS Speech Audio Cues
-                ttsNextUp: (name) => `Next up: ${name}. Get ready.`,
-                ttsRest: (next) => `Rest time. Next up is ${next}.`,
-                ttsSetRest: "Great job! Major set complete. Enjoy your inter-set break.",
-                ttsWarmup: "Preparing to warm up. Focus on smooth, deep breathing.",
-                ttsCooldown: "Excellent work! Core circuit complete. Let's transition to stretching.",
-                ttsFinish: "Congratulations! You have completed tonight's core conditioning session. One step closer to departure!",
+                ttsRest: (next) => `Rest interval. Next up: ${next}`,
+                ttsSetRest: "Great job! Major set complete. Enjoy your break.",
+                ttsWarmup: "Preparing to warm up. Smooth breathing.",
+                ttsCooldown: "Core circuit complete. Let's start the cool-down stretching.",
+                ttsFinish: "Congratulations! Tonight's core conditioning is complete. One step closer!",
                 ttsLangChange: "Voice guide switched to English"
             }
         };
@@ -720,6 +735,7 @@
             setElText('ui-reset-lbl', t.resetBtn);
             setElText('ui-customise-btn-txt', (currentLang === 'zh') ? '自訂訓練設定' : 'Customise Settings');
             setElText('ui-close-btn-txt', t.closeBtn);
+            setElText('ui-next-up-header', (currentLang === 'zh') ? '下一動作 / NEXT:' : 'NEXT:');
 
             const tabSettingsBtn = document.getElementById('tab-settings-btn');
             if (tabSettingsBtn) tabSettingsBtn.innerText = (currentLang === 'zh') ? '⚙️ 設定 Parameters' : '⚙️ Parameters';
@@ -1074,6 +1090,36 @@
         let isTimerRunning = false;
         let intervalId = null;
 
+        // Screen Wake Lock API Global Variables
+        let wakeLock = null;
+
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                }
+            } catch (err) {
+                console.log('Wake Lock request failed:', err);
+            }
+        }
+
+        function releaseWakeLock() {
+            if (wakeLock !== null) {
+                wakeLock.release().then(() => {
+                    wakeLock = null;
+                }).catch(err => {
+                    console.log('Wake Lock release failed:', err);
+                });
+            }
+        }
+
+        // Automatically re-request wake lock when user switches back to active tab
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible' && isTimerRunning) {
+                await requestWakeLock();
+            }
+        });
+
         // On Load Configuration Initialize
         window.onload = function() {
             applyTranslations();
@@ -1090,7 +1136,7 @@
             // Synchronise individual exercise durations to global work slider UNLESS customized
             workoutsModel.forEach(item => {
                 if (!item.userCustomized) {
-                    item.duration = (item.id.includes('sideplank')) ? Math.min(30, work) : work;
+                    item.duration = (item.id.includes('sideplank') || item.id.includes('birddog_')) ? Math.min(30, work) : work;
                 }
             });
 
@@ -1160,6 +1206,9 @@
             const sets = document.getElementById('set-count') ? parseInt(document.getElementById('set-count').value) : 3;
             const t = i18nDict[currentLang];
 
+            const enabledWorkouts = workoutsModel.filter(item => item.enabled !== false);
+
+            // Step 1: Add Warm-up OR initial prep countdown if warm-up is disabled
             if (isWarmup) {
                 workoutQueue.push({
                     name: t.exWarmupTitle,
@@ -1169,10 +1218,22 @@
                     set: t.setBadgeWarm,
                     tip: t.exWarmupTip
                 });
+            } else {
+                // If Warm-up is off, insert a 10-second high-contrast position setup countdown!
+                if (enabledWorkouts.length > 0) {
+                    workoutQueue.push({
+                        name: currentLang === 'zh' ? "準備開始" : "Get Ready",
+                        subtitle: currentLang === 'zh' ? "請準備好地墊姿勢" : "Get into position on your mat",
+                        duration: 10,
+                        type: "rest",
+                        set: currentLang === 'zh' ? "準備階段" : "Preparation",
+                        tip: currentLang === 'zh' ? "即將開始第一個主動作，請準備就位！" : "First core exercise is starting soon, get ready!",
+                        nextUp: enabledWorkouts[0].name[currentLang]
+                    });
+                }
             }
 
-            const enabledWorkouts = workoutsModel.filter(item => item.enabled !== false);
-
+            // Step 2: Main workout sets loops
             if (enabledWorkouts.length > 0) {
                 for (let s = 1; s <= sets; s++) {
                     enabledWorkouts.forEach((item, idx) => {
@@ -1213,6 +1274,7 @@
                 }
             }
 
+            // Step 3: Cool-down stretching
             if (isCooldown) {
                 workoutQueue.push({
                     name: t.exCooldownTitle,
@@ -1279,12 +1341,15 @@
             isTimerRunning = true;
 
             const playIcon = document.getElementById('play-icon');
-            if (playIcon) playIcon.innerHTML = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
+            if (playIcon) playIcon.innerHTML = `<polygon points="6,19 10,19 10,5 6,5 6,19 14,19 18,19 18,5 14,5 14,19"></polygon>`;
             updatePlayPauseButtonLabel();
 
             if (isBGMEnabled) {
                 startSynthBGM();
             }
+
+            // Keep screen on while timer is active
+            requestWakeLock();
 
             if (workoutQueue.length > 0 && timerVal === workoutQueue[currentStepIndex].duration) {
                 announceActiveStep(workoutQueue[currentStepIndex]);
@@ -1297,8 +1362,12 @@
             isTimerRunning = false;
             clearInterval(intervalId);
             stopSynthBGM();
+            
+            // Release screen lock when paused
+            releaseWakeLock();
+
             const playIcon = document.getElementById('play-icon');
-            if (playIcon) playIcon.innerHTML = `<path d="M8 5v14l11-7z" />`;
+            if (playIcon) playIcon.innerHTML = `<polygon points="5 3 19 12 5 21 5 3"></polygon>`;
             updatePlayPauseButtonLabel();
         }
 
@@ -1353,8 +1422,8 @@
             setElText('set-badge', step.set);
 
             const nextStepText = step.nextUp 
-                ? `${currentLang === 'en' ? 'Next' : '下一步'}: ${step.nextUp}` 
-                : (workoutQueue[index + 1] ? `${currentLang === 'en' ? 'Next' : '下一步'}: ${workoutQueue[index + 1].name}` : (currentLang === 'en' ? 'Finished!' : '已完成！'));
+                ? `${currentLang === 'en' ? 'Next' : '下一動作'}: ${step.nextUp}` 
+                : (workoutQueue[index + 1] ? `${currentLang === 'en' ? 'Next' : '下一動作'}: ${workoutQueue[index + 1].name}` : (currentLang === 'en' ? 'Finished!' : '已完成！'));
             setElText('next-up', nextStepText);
 
             const bg = document.getElementById('timer-bg');
@@ -1392,11 +1461,12 @@
 
             const activeStepTotal = workoutQueue[currentStepIndex].duration;
             const progressRatio = timerVal / activeStepTotal;
-            const strokeOffset = 600 * progressRatio;
+            const strokeOffset = 270.17 * progressRatio; 
             const bar = document.getElementById('timer-progress-bar');
             if (bar) bar.setAttribute('stroke-dashoffset', strokeOffset);
         }
 
+        // Calculates global percentage completed of cumulative workout queue
         function updateOverallWorkoutProgressPercent() {
             if (workoutQueue.length === 0) return;
             let completedSecs = 0;
@@ -1449,7 +1519,8 @@
             if (!isSpeechEnabled) return;
             const t = i18nDict[currentLang];
             if (step.type === 'work') {
-                speakSentence(t.ttsNextUp(step.name));
+                // Simplified: ONLY speak the exercise name, no long sentences!
+                speakSentence(step.name);
             } else if (step.type === 'rest') {
                 speakSentence(t.ttsRest(step.nextUp));
             } else if (step.type === 'setrest') {
