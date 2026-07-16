@@ -282,16 +282,18 @@
     </main>
 
     <!-- FLOATING PLAYLIST PANEL -->
-    <footer class="bg-slate-950 border-t border-slate-900/60 py-3.5 px-6 z-20">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-[10px] sm:text-xs text-slate-500 text-center sm:text-left">
-            <div id="ui-footer-text">
+    <footer class="bg-slate-950 border-t border-slate-900/60 py-4 px-6 z-20">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500 text-center sm:text-left">
+            <div id="ui-footer-text" class="leading-relaxed">
                 &copy; 2026 瀨戶內海單車作戰備忘錄 · 核心肌肉，是您攻克島波海道最牢靠的「避震器」！
             </div>
-            <button id="ui-reset-btn" onclick="resetWorkout()" class="text-slate-500 hover:text-rose-400 font-bold flex items-center gap-1 transition-colors">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 15H19" />
+            <!-- Upgraded high-visibility Reset Button with globally recognizable counter-clockwise arrow -->
+            <button id="ui-reset-btn" onclick="resetWorkout()" class="px-5 py-2.5 bg-slate-900 border border-slate-800 text-slate-300 hover:text-rose-400 hover:border-rose-950 hover:bg-rose-950/15 rounded-xl flex items-center justify-center gap-2 font-black transition-all shadow-md active:scale-95 text-xs sm:text-sm shrink-0">
+                <svg width="15" height="15" class="shrink-0 text-slate-400 hover:text-rose-400 transition-colors" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                    <path d="M3 3v5h5" />
                 </svg>
-                <span id="ui-reset-lbl"> 重設計時器</span>
+                <span id="ui-reset-lbl">重設計時器</span>
             </button>
         </div>
     </footer>
@@ -432,7 +434,7 @@
                 skipBtn: "跳過",
                 timelineProg: "當前進度",
                 footerText: "© 2026 瀨戶內海單車作戰備忘錄 · 核心肌肉，是您攻克島波海道最牢靠的「避震器」！",
-                resetBtn: " 重設計時器",
+                resetBtn: "重設計時器",
                 customiseBtn: "自訂設定",
                 closeBtn: "完成",
                 // Badges/Status
@@ -500,7 +502,7 @@
                 skipBtn: "Skip",
                 timelineProg: "Current Progress",
                 footerText: "© 2026 Setouchi Cycling Expedition. Strong core is your bike's ultimate shock absorber!",
-                resetBtn: " Reset Timer",
+                resetBtn: "Reset Timer",
                 customiseBtn: "Customise",
                 closeBtn: "Done",
                 // Badges/Status
@@ -913,7 +915,7 @@
                 playSynthHiHat(time);
             }
 
-            if (step === 0 || step === 3 || step === 6 || step === 8 || step === 11 || step === 14) {
+            if (step === 0 || step === 3 || step === 6 || step === 8 || step === 11 || strokeOffset === 24) {
                 const pitchMultiplier = (step === 6 || step === 14) ? 1.5 : 1.0;
                 playSynthBassNote(bassFreq * pitchMultiplier, time, stepDuration * 0.95);
             }
